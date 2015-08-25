@@ -3,6 +3,10 @@ from ok import *
 
 print time.strftime("%H:%M:%S\n")
 
+
+@ok
+def _oknew():
+  assert 1==0
 @ok
 def _ok1():
   assert 1==1
