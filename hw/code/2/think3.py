@@ -122,11 +122,11 @@ do_four(print_twice, 'spam_new')
 ### A print statement all by itself ends the current line and goes to the next line.
 ### Write a function that draws a similar grid with four rows and four columns.
 
-def do_twice(f,n,x):
+def do_twice(f,n,x=0):
     f(n,x)
     f(n,x)
     
-def do_four(f,n,x):
+def do_four(f,n,x=0):
     do_twice(f,n,x)
     do_twice(f,n,x)
     
@@ -138,16 +138,16 @@ def print_post_space(n,x):
 
 def print_top(n,x):
     if x == 2:
-        do_twice(print_plus_hypen,n,0)
+        do_twice(print_plus_hypen,n)
     else:
-        do_four(print_plus_hypen,n,0)
+        do_four(print_plus_hypen,n)
     print '+'
 
 def print_body(n,x):
     if x == 2:
-        do_twice(print_post_space,n,0)
+        do_twice(print_post_space,n)
     else:
-        do_four(print_post_space,n,0)
+        do_four(print_post_space,n)
     print '|'
     
 def print_plus_hyphen_post(n,x):
