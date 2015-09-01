@@ -23,17 +23,16 @@ def single(t,r,angle):
         arc(t,r,angle)
         lt(t,180-angle)
 
-def flower(n):
+def shape(n,r,angle):
     for i in range(n):
         single(t,r,angle)
         lt(t,360.0/n)
 
 world=TurtleWorld()
 t = Turtle()
-r = 60.0
-angle = 60.0
-flower(7)
-#flower(10) # Call flower function with the desired number of petals 'n'
-#flower(20)
+# Call shape function with the desired number of petals 'n', radius 'r' and angle 'angle'
+shape(7,r=60,angle=60)
+#shape(10,r=60,angle=60) 
+#shape(20,r=140,angle=20)
 
 wait_for_user()
