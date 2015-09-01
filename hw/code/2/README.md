@@ -18,11 +18,8 @@
 
 
 ### Exercise 4.2  
-![4.2](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/4-1.PNG)   
-![4.2](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/4-2.PNG)   
-![4.2](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/4-3.PNG)   
+![4.2](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/think4/_2.PNG)   
 
 ### Exercise 4.3    
-![4.3](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/4-4.PNG)   
-![4.3](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/4-5.PNG)   
-![4.3](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/4-6.PNG)      
+![4.3](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/think4/_3.PNG)   
+     
