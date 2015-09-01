@@ -18,8 +18,8 @@
 
 
 ### Exercise 4.2  
-![4.2](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/think4/_2.PNG)   
+![4.2](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/think4/_2.png)   
 
 ### Exercise 4.3    
-![4.3](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/think4/_3.PNG)   
+![4.3](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/2/think4/_3.png)   
      
