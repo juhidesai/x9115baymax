@@ -7,8 +7,9 @@ License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
 
 """
 
-from Card import *
 
+from __future__ import division
+from Card import *
 
 class PokerHand(Hand):
 
@@ -85,6 +86,7 @@ class PokerHand(Hand):
             if sorted_ranks[i+1] - sorted_ranks[i] != 1:
                 return False
         # print sorted_ranks
+        print "is straight"
         return True
     
     def has_flush(self):
@@ -116,52 +118,97 @@ class PokerHand(Hand):
         return self.has_straight() and self.has_flush()
         
     def classify(self):
-        if hand.has_straightflush():
-            self.label = "Straight Flush"
+        if self.has_straightflush():
+            self.label = "Straight flush"
             return
         
-        if hand.has_fourofakind():
+        if self.has_fourofakind():
             self.label = "4 of a kind"
             return
         
-        if hand.has_fullhouse():
-            self.label = "full house"
+        if self.has_fullhouse():
+            self.label = "Full house"
             return
         
-        if hand.has_flush():
+        if self.has_flush():
             self.label = "Flush"
             return
         
-        if hand.has_straight():
+        if self.has_straight():
             self.label = "Straight"
             return
         
-        if hand.has_threeofakind():
+        if self.has_threeofakind():
             self.label = "3 of a kind"
             return
         
-        if hand.has_twopair():
+        if self.has_twopair():
             self.label = "2 pair"
             return
         
-        if hand.has_pair():
-            self.label = "measley pair"
+        if self.has_pair():
+            self.label = "Pair"
             return
         
-        
-        
+        self.label = "None"
 
-if __name__ == '__main__':
-    # make a deck
-    deck = Deck()
-    deck.shuffle()
-
-    # deal the cards and classify the hands
-    for i in range(7):
+def update_classification(label):
+     occurences[label] = occurences.get(label,0) + 1
+     
+def print_classification(n):
+    print "\n Classification is :"
+    print "Label\tCount\tProbability"
+    for key in occurences:
+        print key,"\t",occurences[key],"\t%.2f"%(occurences[key]/(n*10))
+     
+def count_classifications(n):
+    #deck = Deck()
+    #hand = PokerHand()
+    # for number in range(n):
+    for i in range(n):
+        print 'i is ',i
+        deck.shuffle()
         hand = PokerHand()
         deck.move_cards(hand, 7)
         hand.sort()
-        cards_test = []
+        print hand
+        hand.classify()
+        print hand.label
+        print ''
+        update_classification(hand.label)
+        #print_classification()
+        print ''
+    print_classification(n)
+    
+def initialize_occurences():
+    occurences["Straight flush"] = 0
+    occurences["4 of a kind "] = 0
+    occurences["Full house"] = 0
+    occurences["Flush"] = 0
+    occurences["Straight"] = 0
+    occurences["3 of a kind"] = 0
+    occurences["2 pair"] = 0
+    occurences["Pair"] = 0
+    occurences["None"] = 0
+    
+
+if __name__ == '__main__':
+    # make a deck
+    occurences = {}
+    for j in range(10):
+        deck = Deck()
+        deck.shuffle()
+    
+    #initialize_occurences()
+    
+        count_classifications(5)
+    # deal the cards and classify the hands
+    for i in []:
+    #for i in range(7):
+        hand = PokerHand()
+        deck.move_cards(hand, 7)
+        hand.sort()
+        #cards_test = []
         ## Test for straightflush
         #for i in range(7):
         #    cards_test.append(Card(0,i+3))
@@ -176,6 +223,10 @@ if __name__ == '__main__':
         # print hand.has_straightflush()
         hand.classify()
         print hand.label
+        update_classification(hand.label)
         print ''
+    #print_classification()
+        
+    
         
 
