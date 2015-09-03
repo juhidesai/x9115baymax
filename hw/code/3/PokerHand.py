@@ -115,6 +115,41 @@ class PokerHand(Hand):
     def has_straightflush(self):
         return self.has_straight() and self.has_flush()
         
+    def classify(self):
+        if hand.has_straightflush():
+            self.label = "Straight Flush"
+            return
+        
+        if hand.has_fourofakind():
+            self.label = "4 of a kind"
+            return
+        
+        if hand.has_fullhouse():
+            self.label = "full house"
+            return
+        
+        if hand.has_flush():
+            self.label = "Flush"
+            return
+        
+        if hand.has_straight():
+            self.label = "Straight"
+            return
+        
+        if hand.has_threeofakind():
+            self.label = "3 of a kind"
+            return
+        
+        if hand.has_twopair():
+            self.label = "2 pair"
+            return
+        
+        if hand.has_pair():
+            self.label = "measley pair"
+            return
+        
+        
+        
 
 if __name__ == '__main__':
     # make a deck
@@ -138,6 +173,9 @@ if __name__ == '__main__':
         # print hand.has_straight()
         # print hand.has_fullhouse()
         #print hand.has_fourofakind()
-        print hand.has_straightflush()
+        # print hand.has_straightflush()
+        hand.classify()
+        print hand.label
         print ''
+        
 
