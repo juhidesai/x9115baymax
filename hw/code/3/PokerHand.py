@@ -50,14 +50,41 @@ class PokerHand(Hand):
         return False
         
     def has_threeofakind(self):
-        """ two pair """
+        """ three of a kind """
         self.rank_hist()
         for val in self.ranks.values():
             if val >= 3:
                 return True
         return False
+    
+    def has_fourofakind(self):
+        """ four of a kind """
+        self.rank_hist()
+        for val in self.ranks.values():
+            if val >= 4:
+                return True
+        return False
         
     def has_straight(self):
+        # self.rank_hist()
+        sorted_ranks = []
+        # print self.cards[0].rank
+        for card in self.cards:
+            sorted_ranks.append(card.rank)
+        #sorted_ranks = [1,8,9,10,11,12,13]
+        sorted_ranks.sort()
+        special_case = [1]
+        no_of_cards = len(self.cards)
+        for num in range(no_of_cards-1):
+            special_case.append(13-num)
+        special_case.sort()
+        #print "Special case is ",special_case
+        if sorted_ranks == special_case:
+            return True
+        for i in range(len(sorted_ranks)-1):
+            if sorted_ranks[i+1] - sorted_ranks[i] != 1:
+                return False
+        # print sorted_ranks
         return True
     
     def has_flush(self):
@@ -70,7 +97,24 @@ class PokerHand(Hand):
             if val >= 5:
                 return True
         return False
-
+        
+    def has_fullhouse(self):
+        """ Full house """
+        self.rank_hist()
+        count3 = 0
+        count2 = 0
+        for val in self.ranks.values():
+            if val >= 3:
+                count3+=1
+            elif val >=2:
+                count2+=1
+        if count3 >=1 and count2 >=1:
+            return True
+        return False
+        
+    def has_straightflush(self):
+        return self.has_straight() and self.has_flush()
+        
 
 if __name__ == '__main__':
     # make a deck
@@ -82,9 +126,18 @@ if __name__ == '__main__':
         hand = PokerHand()
         deck.move_cards(hand, 7)
         hand.sort()
+        cards_test = []
+        ## Test for straightflush
+        #for i in range(7):
+        #    cards_test.append(Card(0,i+3))
+        #hand.cards = cards_test
         print hand
         #print hand.has_flush()
         # print hand.has_twopair()
-        print hand.has_threeofakind()
+        #print hand.has_threeofakind()
+        # print hand.has_straight()
+        # print hand.has_fullhouse()
+        #print hand.has_fourofakind()
+        print hand.has_straightflush()
         print ''
 
