@@ -156,17 +156,17 @@ def update_classification(label):
      occurences[label] = occurences.get(label,0) + 1
      
 def print_classification(n):
-    print "\n Classification is :"
-    print "Label\tCount\tProbability"
+    print "\nClassification is :"
+    print "Label\t\t\tCount\tProbability"
     for key in occurences:
-        print key,"\t",occurences[key],"\t%.2f"%(occurences[key]/(n*10))
+        print key,"\t\t\t",occurences[key],"\t%.2f"%(occurences[key]/(n*10))
      
 def count_classifications(n):
     #deck = Deck()
     #hand = PokerHand()
     # for number in range(n):
     for i in range(n):
-        print 'i is ',i
+        # print 'i is ',i
         deck.shuffle()
         hand = PokerHand()
         deck.move_cards(hand, 7)
