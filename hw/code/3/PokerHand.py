@@ -86,7 +86,6 @@ class PokerHand(Hand):
             if sorted_ranks[i+1] - sorted_ranks[i] != 1:
                 return False
         # print sorted_ranks
-        print "is straight"
         return True
     
     def has_flush(self):
@@ -120,35 +119,51 @@ class PokerHand(Hand):
     def classify(self):
         if self.has_straightflush():
             self.label = "Straight flush"
+            #print "Straight Flush : True"
             return
+        #print "Straight Flush : False"
         
         if self.has_fourofakind():
             self.label = "4 of a kind"
+            #print "4 of a kind : True"
             return
+        #print "4 of a kind : False"
         
         if self.has_fullhouse():
             self.label = "Full house"
+            #print "Full house : True"
             return
+        #print "Full house : False"
         
         if self.has_flush():
             self.label = "Flush"
+            #print " Flush : True"
             return
+        #print "Flush : False"
         
         if self.has_straight():
             self.label = "Straight"
+            #print "Straight : True"
             return
+        #print "Straight : False"
         
         if self.has_threeofakind():
             self.label = "3 of a kind"
+            #print "Three of a kind : True"
             return
+        #print "Three of a kind : False"
         
         if self.has_twopair():
             self.label = "2 pair"
+            #print "Two pair : True"
             return
+        #print "Two pair : False"
         
         if self.has_pair():
             self.label = "Pair"
+            #print "Pair : True"
             return
+        #print "Pair : False"
         
         self.label = "None"
 
@@ -156,10 +171,14 @@ def update_classification(label):
      occurences[label] = occurences.get(label,0) + 1
      
 def print_classification(n):
-    print "\nClassification is :"
-    print "Label\t\t\tCount\tProbability"
+    print "No of hands :",no_of_hands
+    print "Iterations :",iterations
+    print "Classification is :"
+    print '{0: <20}{1: <10}{2: <8}'.format("Label","Count","Probability")
+    #print "Label\t\t\tCount\tProbability"
     for key in occurences:
-        print key,"\t\t\t",occurences[key],"\t%.2f"%(occurences[key]/(n*10))
+        print '{0: <20}{1: < 10}{2: .4f}'.format(key,occurences[key],occurences[key]/(n*iterations))
+        #print key,"%s\t\t\t",occurences[key],"\t%.2f"%(occurences[key]/(n*10))
      
 def count_classifications(n):
     #deck = Deck()
@@ -171,14 +190,14 @@ def count_classifications(n):
         hand = PokerHand()
         deck.move_cards(hand, 7)
         hand.sort()
-        print hand
+        #print hand
         hand.classify()
-        print hand.label
-        print ''
+        #print hand.label
+        #print ''
         update_classification(hand.label)
         #print_classification()
-        print ''
-    print_classification(n)
+        #print ''
+    #print_classification(n)
     
 def initialize_occurences():
     occurences["Straight flush"] = 0
@@ -195,13 +214,14 @@ def initialize_occurences():
 if __name__ == '__main__':
     # make a deck
     occurences = {}
-    for j in range(10):
+    iterations = 80000
+    no_of_hands = 7
+    for j in range(iterations):
         deck = Deck()
-        deck.shuffle()
-    
-    #initialize_occurences()
-    
-        count_classifications(5)
+        #deck.shuffle()
+        count_classifications(no_of_hands)
+        
+    print_classification(no_of_hands)
     # deal the cards and classify the hands
     for i in []:
     #for i in range(7):
