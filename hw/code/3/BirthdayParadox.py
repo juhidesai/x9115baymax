@@ -26,7 +26,6 @@ def check_birthday_probability(n):
         if has_duplicate(generate_birthdays(n)):
             true_count += 1
     probablity = true_count*100/365
-    print "Probability of %d birthdays occuring together in 365 days is: " % n
-    print  true_count*100/365
+    print "Probability of",n,"birthdays occuring together in 365 days is: %.2f %%" % probablity
     
 check_birthday_probability(23)
