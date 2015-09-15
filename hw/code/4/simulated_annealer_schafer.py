@@ -35,7 +35,7 @@ def E(x):
     #print "x, F ",x,f1,f2
     #print (((f1 + f2) - min1) / (max1 - min1))
     return ((f1 + f2) - min1) / (max1 - min1)
-    
+
 def randValue():
     return random.random()
  
@@ -54,7 +54,7 @@ while k < kmax and  e > emax:
         say("\n")
         # say(sb)
         say(", ")
-        say(k)
+        print "%04d"%k,
         say(", ")
         print "%.2f"%en,
         say(", ")
@@ -80,4 +80,4 @@ while k < kmax and  e > emax:
     #break
     
 print "\n\nbest x: ",sb
-print "\n\nbest e:%s"%e
+print "\n\nbest e (Normalized) :%s"%eb
