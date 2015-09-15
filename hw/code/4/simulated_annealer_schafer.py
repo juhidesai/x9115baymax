@@ -10,18 +10,15 @@ sb = s
 eb = e
 k = 0
 
-<<<<<<< HEAD
 kmax = 1000.0
-=======
-kmax = 1000
->>>>>>> f66c4a8f28b451fdcca06738654d7abb450140ae
+
 emax = -2.0
 
 def say(x): 
   sys.stdout.write(str(x)); sys.stdout.flush()
   
 def neighbor(n):
-    #return random.randint(-100000,100000)
+    return random.randint(-100000,100000)
     if n*2 > 100000 or n*2 < -100000:
         return n/2
     return n*2
@@ -45,7 +42,7 @@ def randValue():
 def P(old, new, t):
     #print "P ",e**(-1*(old-new)/t)
     #return math.exp(float(1*float(old-new)/t))
-    equation = float(-1*(old-new)/float(t))
+    equation = float(1*(old-new)/float(t))
     accepProbToret = math.exp(equation)
     return accepProbToret
     
@@ -63,7 +60,7 @@ while k < kmax and  e > emax:
         s = sn
         e = en
         say("+")
-    elif P(e,en, k/kmax) > randValue():
+    elif P(e,en, k/kmax) > (k+100)/kmax:
         s = sn
         e = en
         say("?")
@@ -74,4 +71,5 @@ while k < kmax and  e > emax:
         say("\n")
         say(sb)
     #break
-print sb
+    
+print "\n",sb
