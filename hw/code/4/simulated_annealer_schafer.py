@@ -10,7 +10,11 @@ sb = s
 eb = e
 k = 0
 
+<<<<<<< HEAD
 kmax = 1000.0
+=======
+kmax = 1000
+>>>>>>> f66c4a8f28b451fdcca06738654d7abb450140ae
 emax = -2.0
 
 def say(x): 
