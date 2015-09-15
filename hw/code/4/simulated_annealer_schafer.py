@@ -42,6 +42,8 @@ def randValue():
 def P(old, new, t):
     #print "P ",e**(-1*(old-new)/t)
     #return math.exp(float(1*float(old-new)/t))
+    ''' Credit to: Akond - https://github.com/akondrahman/59115ASE/blob/master/hw/code/4/randomGeneration.py
+    '''
     equation = float(1*(old-new)/float(t))
     accepProbToret = math.exp(equation)
     return accepProbToret
