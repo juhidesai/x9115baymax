@@ -49,6 +49,15 @@ def P(old, new, t):
 while k < kmax and  e > emax:
     sn = neighbor(s)
     en = E(sn)
+    if k%25 == 0:
+        
+        say("\n")
+        # say(sb)
+        say(", ")
+        say(k)
+        say(", ")
+        print "%.2f"%en,
+        say(", ")
     #print "\n",sn,"\t",s,"\t",eb
     #print "\n Energy: ",en,"\t",e,"\t",eb
     if en < eb:
@@ -67,9 +76,8 @@ while k < kmax and  e > emax:
         
     say(".")
     k = k + 1
-    if k%40 == 0:
-        say("\n")
-        say(sb)
+    
     #break
     
-print "\n",sb
+print "\n\nbest x: ",sb
+print "\n\nbest e:%s"%e
