@@ -44,7 +44,7 @@ def P(old, new, t):
     #return math.exp(float(1*float(old-new)/t))
     ''' Credit to: Akond - https://github.com/akondrahman/59115ASE/blob/master/hw/code/4/randomGeneration.py
     '''
-    equation = float(1*(old-new)/float(t))
+    equation = float((old-new)/float(t))
     accepProbToret = math.exp(equation)
     return accepProbToret
     
@@ -71,7 +71,7 @@ while k < kmax and  e > emax:
         s = sn
         e = en
         say("+")
-    elif P(e,en, k/kmax) > (k+100)/kmax:
+    elif P(e,en, k/kmax) < random.random(): #P(e,en, k/kmax) > (k+100)/kmax:
         s = sn
         e = en
         say("?")
