@@ -22,6 +22,8 @@ def maxwalksat():
     
     for i in range(max_tries):
         solution_energy, solution_values = model.getSolution()
+        if i%50 == 0:
+            print "\n",i,", ",
         for j in range(max_changes):
             score = model.getScore(solution_values)
             if score > threshold:
@@ -40,6 +42,7 @@ def maxwalksat():
                         break
                     c = random.randint(0,5)
                 solution_energy = model.getScore(solution_values)
+                print "?",  # Crazy jump
             else:
                 local_best_solution_energy = -10000
                 local_best_value = -1;
@@ -53,15 +56,17 @@ def maxwalksat():
                     if new_score > local_best_solution_energy:
                         local_best_solution_energy = new_score
                         local_best_value = new_value
-                        
                 solution_values[c] = local_best_value
                 solution_energy = local_best_solution_energy
                     
         ##update best seen so far
-        if solution_energy > best_solution_energy:
-            best_solution_energy = solution_energy
-            best_solution_values = solution_values
-    print "Best energy is ",best_solution_energy
+            if solution_energy > best_solution_energy:
+                best_solution_energy = solution_energy
+                best_solution_values = solution_values
+                print "!",  #Global best solution
+            else:
+                print ".",  # No change
+    print "\nBest energy is ",best_solution_energy
     print "Best values are ",best_solution_values
     
 maxwalksat()
