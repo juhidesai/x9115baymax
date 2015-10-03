@@ -3,3 +3,7 @@
 
 ![Schaeffer cont](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/4/2.PNG)   
 
+Updated number of iterations to 50,000   
+
+![Schaeffer updated] (https://github.com/juhidesai/x9115baymax/blob/master/hw/code/4/new_sa.PNG)
+

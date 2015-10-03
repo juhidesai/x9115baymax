@@ -10,7 +10,7 @@ sb = s
 eb = e
 k = 0
 
-kmax = 1000.0
+kmax = 50000.0
 
 emax = -2.0
 
