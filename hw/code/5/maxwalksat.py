@@ -5,14 +5,20 @@ mins = [0,0,1,0,1,0]
 maxs = [10,10,5,6,5,10]
 
 step_size = 10
+min1 = 0
+max1 = 0
+
+def normalize(a):
+    return (a - min1) / float(max1 - min1)
 
 def maxwalksat():
-    max_tries = 1000
-    max_changes = 100
-    
+    max_tries = 10000
+    max_changes = 50
+    global min1
+    global max1
     min1,max1 = model.getBaselineEnergy()
-    
-    threshold = max1 * 5
+
+    threshold = max1 * 1.2
     
     solution_values = []
     solution_energy = -1
@@ -22,13 +28,13 @@ def maxwalksat():
     
     for i in range(max_tries):
         solution_energy, solution_values = model.getSolution()
-        if i%50 == 0:
+        if i%25 == 0:
             print "\n",i,", ",
         for j in range(max_changes):
             score = model.getScore(solution_values)
             if score > threshold:
-                print "Best Solution Greater than threshold found"
-                print score
+                print "\nBest Solution Greater than threshold found"
+                print normalize(score)
                 print solution_values
                 return score, solution_values
             
@@ -66,7 +72,7 @@ def maxwalksat():
                 print "!",  #Global best solution
             else:
                 print ".",  # No change
-    print "\nBest energy is ",best_solution_energy
+    print "\nBest energy is ",normalize(best_solution_energy)
     print "Best values are ",best_solution_values
     
 maxwalksat()
