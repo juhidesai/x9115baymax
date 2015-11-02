@@ -6,11 +6,12 @@ Schaffer
 
 ![generic1](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/6/schaffer.png)  
 
-Kursawe  
+Osyczka  
 
 ![generic2](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/6/kursawe.PNG)  
 
-Osyczka  
+ 
+Kursawe  
 
 ![generic3](https://github.com/juhidesai/x9115baymax/blob/master/hw/code/6/osy.PNG)  
 
