@@ -26,6 +26,7 @@ import logging
 import test_maincode
 from test_maincode import check_em
 import coverage
+import random
 
 cov=coverage.Coverage()
 
@@ -34,8 +35,87 @@ param_list = []
 cov_list = []
 cov_dict = {}
 main_lists = []
-n = 5
-##def de():
+n = 10
+de_max = 50
+f = 0.75
+cf = 0.3
+
+def de():
+    basefrontier = generateFrontier()
+    print basefrontier
+    for x in range(de_max):
+        if basefrontier == None:
+            print"--------------------------------------------"
+            print x
+            print"--------------------------------------------"
+        basefrontier = update(basefrontier)
+    return basefrontier
+    
+def update(frnt):
+    print "in update"
+    print frnt
+    generator(frnt)
+    for i,x in enumerate(frnt):
+        new = extrapolate(frnt,x,f,cf)
+        frnt[i] = better(x,new)
+
+def extrapolate(frnt,one,f,cf):
+    two,three,four = threeOthers(frnt,one)
+    new = [0]*len(one)
+##    changed = False
+    #use numpy
+    print one
+    print len(one)
+    for i in range(2):
+        print "i is",i
+        x,y,z = two[i],three[i],four[i]
+        if random.random() < cf:
+            new[i] = x + f*(y - z)
+        else:
+            print "i ",i
+            new[i] = one[i]
+    return tuple(new)
+
+def better(x,new):
+    x_list = 0
+    list_coverage = 0
+    for i,some_list in enumerate(main_lists):
+        if x in some_list:
+            x = i
+            break
+    global cov_dict
+    print cov_dict
+    list_coverage = cov_dict[x_list]
+    if list_coverage > 0.75:
+        return x
+    return new
+        
+
+def threeOthers(frnt,avoid):
+    def oneOther():
+        x = avoid
+        while x in seen:
+            x = a(frnt)
+        seen.append(x)
+        return x
+    seen =[avoid]
+    two = oneOther()
+    three = oneOther()
+    four = oneOther()
+    return two,three,four
+
+def a(lst):
+    return lst[random.randint(0,199)]
+    
+        
+def generateFrontier():
+    frontier1 = []
+    for i in range(200):
+        a = (random.randint(0,10),random.randint(0,10))
+            #get from some optimizer, DE? based on current value? get frontier with say 200 values         
+        frontier1.append(a)
+    return frontier1
+    
     
 def generateParam():
     for i in range(15):
@@ -47,21 +127,26 @@ def generateParam():
     global frontier
     frontier = param_list
 ##    print param_list
+
+
+def test_de():
+    print "in test DE"
+    de()
     
 ##param_list = [(1, 1), (5,3), (8, 6)]
-def test_generator():
-    generateParam()
-    # Assume frontier = de()
-    print frontier
-    main_lists = [frontier[i:i+n] for i in range(0,len(frontier),n)]
-    print main_lists[0]
-
+def generator(current_frontier):
+    print current_frontier
+    print "inside"
+    global cov_dict
+    main_lists = [current_frontier[i:i+n] for i in range(0,len(current_frontier),n)]
+    print "ml ",main_lists
+    
     for i,sub_list in enumerate(main_lists):
         print i," ",sub_list
         cov.erase()
         cov.start()
         for params in sub_list:
-            yield check_em, params[0], params[1]
+            check_em(params[0], params[1])
         cov.stop()
         dict = cov.analysis2('test_maincode.py')
         print dict
@@ -71,9 +156,9 @@ def test_generator():
         linesExePc = (float)(linesExe)/ len(totLines)
         cov_list.append(linesExePc)
         cov_dict[i] = linesExePc
-    print cov_dict
+    print "cov dict inside ",cov_dict
         
-    
+##de()    
 
 if __name__ == '__main__':
     #This code will run the test in this file.'
@@ -87,3 +172,4 @@ if __name__ == '__main__':
                             module_name,
                             '-v', '--nocapture'])#,'--with-coverage','--cover-tests'])
     logging.info("all tests ok: %s", result)
+
