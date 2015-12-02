@@ -9,3 +9,17 @@ def check_em(a, b):
         print("Even")
     else:
         print("Odd")
+
+def check_em_too(a,b,c,d):
+	g = a + c + d*10
+	if g > 100:
+		e = 100
+		f = e*b
+		if f%2 == 0:
+			print f
+	else:
+		f = g%22
+		if f%2 != 0:
+			print f
+		else:
+			print g
