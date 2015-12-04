@@ -133,7 +133,7 @@ def generator(current_frontier):
             def_values2 = [(3, 12), (9, 35), (8, 95), (1, 16), (3, 57)]
             slicetest_data_global = [(1, 1), (2, 2), (3, 3), (4, 4), (8, 8), (9, 9), (10, 10), (11, 11)]
 
-            test_all_trees.main()
+            test_all_trees.aaa()
             # test_all_trees.aaa(def_values1, def_values2, slicetest_data_global)
             
             # result = nose.run(argv=[
