@@ -55,14 +55,29 @@ def update(frnt):
 def extrapolate(frnt,one,f,cf):
     two,three,four = threeOthers(frnt,one)
     new = [0]*len(one)
+    # print "---"*40
+    # print len(new)
     #TODO: use numpy
     for i in range(len(one)):
         x,y,z = two[i],three[i],four[i]
+        # print "&&"*40
+        # print one
+        # print x
+        # print y
+        # print z
+        #print int(f*len(one[i]))
         if random.random() < cf:
-            new[i] = int(x + f*(y - z))
-##            print '%%'*50
-##            print "changd"
-##            print '%%'*50
+            ## these are lists. Do a change in the list
+            try:
+                for j in range(int(f*len(one[0][i]))):
+                    new[random.randint(0,len(one[0][i])-1)] = x[random.randint(0,len(x[i])-1)]
+                    new[random.randint(0,len(one[0][i])-1)] = y[random.randint(0,len(y[i])-1)]
+                    new[random.randint(0,len(one[0][i])-1)] = z[random.randint(0,len(z[i])-1)]
+                    # print new
+            #new[i] = int(x + f*(y - z))
+            except:
+                1==1
+                # print len(new), len(one)
         else:
             new[i] = one[i]
     return tuple(new)
@@ -75,7 +90,7 @@ def better(x,new):
             x_list = i
             break
     global cov_dict
-##    print cov_dict
+    print cov_dict
     list_coverage = cov_dict[x_list]
     if list_coverage > 0.75:
         return x
@@ -102,12 +117,25 @@ def a(lst):
 def generateFrontier():
     frontier1 = []
     for i in range(candidates):
-        a = (random.randint(0,10),random.randint(0,10),random.randint(0,10),random.randint(0,10))
+        #a = (random.randint(0,10),random.randint(0,10),random.randint(0,10),random.randint(0,10))
             #get from some optimizer, DE? based on current value? get frontier with say 200 values         
+        p1 = []
+        p2 = []
+        p3 = []
+        for i in range(random.randint(1,40)):
+            p1.append(random.randint(1,99))
+        
+        for i in range(random.randint(1,40)):
+            p2.append((random.randint(1,99), random.randint(1,99)))
+            
+        for i in range(random.randint(1,40)):
+            p3.append((random.randint(1,99), random.randint(1,99)))
+            
+        a = (list(zip(p1,p1)), p2, p3)
         frontier1.append(a)
+        # print frontier1
     return frontier1
     
-
 def test_de():
     print "in test DE"
     de()
@@ -133,14 +161,14 @@ def generator(current_frontier):
             def_values2 = [(3, 12), (9, 35), (8, 95), (1, 16), (3, 57)]
             slicetest_data_global = [(1, 1), (2, 2), (3, 3), (4, 4), (8, 8), (9, 9), (10, 10), (11, 11)]
 
-            test_all_trees.aaa()
-            # test_all_trees.aaa(def_values1, def_values2, slicetest_data_global)
+            #test_all_trees.aaa()
+            test_all_trees.aaa(def_values1, def_values2, slicetest_data_global)
             
             # result = nose.run(argv=[
             #                 'test_all_trees.py',
             #                 '-v', '--nocapture'])
             #CheckTree().check_em_too(params[0], params[1],params[2], params[3])
-            return
+            #return
         cov.stop()
         dict = cov.analysis2('test_all_trees.py')
 ##        print dict
