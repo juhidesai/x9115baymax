@@ -9,13 +9,17 @@ import os
 import sys
 PYPY = hasattr(sys, 'pypy_version_info')
 
+import importlib
+import subprocess
+
 import unittest
 import pickle
-
+sys.path.append('./bintrees-2.0.2/bintrees/bintree.py')
 from random import randint, shuffle
 
 from bintrees import BinaryTree, AVLTree, RBTree
 
+#import BinaryTree
 set3 = [34, 67, 89, 123, 3, 7, 9, 2, 0, 999]
 
 def_values1 = list(zip([13, 13, 13], [13, 13, 13]))
@@ -39,7 +43,8 @@ def randomkeys(num, maxnum=100000):
     return list(keys)
 
 class CheckTree(object):
-    TREE_CLASS = BinaryTree
+    # TREE_CLASS = BinaryTree
+    TREE_CLASS = AVLTree
     
     default_values1 = def_values1
     default_values2 = def_values2
@@ -783,11 +788,25 @@ def aaa(a,b,c):
     # CheckTree().test_000_init_with_seq()
     # CheckTree().test_007_to_dict()
     
+    
+    # path = os.path.join(os.getcwd(),'test')
+    # path = os.path.join(os.path.abspath('.'),'test_all_trees.py')
+    # f = file[:-3]
+    # loader = importlib.machinery.SourceFileLoader('mmm', path)
+    # mod = loader.load_module()
+    
+    # mod = importlib.import_module(path)
+        
     names = getNames('test_all_trees.py')
     for func_name in names:
         try:
-            func_name()
+            # getattr(CheckTree(),func_name)()
+            fd = getattr(func_name,"method")
+            getattr(CheckTree(),fd)()
+            #CheckTree().func_name()
         except:
+            print func_name
+            print "Exception ",sys.exc_info()[0]
             continue
     
     
@@ -806,6 +825,6 @@ def getNames(filename):
     return names
 
 # if __name__ == '__main__':
-#     # print sys.argv
-#     # unittest.main()
-#     print getNames('test_all_trees.py')
+#     print sys.path
+#     # # unittest.main()
+    # print getNames('test_all_trees.py')

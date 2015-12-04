@@ -1,0 +1,7 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+source = /home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/
+         /home/ubuntu/workspace/project/bintrees-2.0.2/tests
+[html]
+directory = coverage_html_report

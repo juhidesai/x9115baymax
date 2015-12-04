@@ -1,15 +1,16 @@
 import nose
 import sys
 import bintrees
-sys.path.append('./bintrees-2.0.2/bintrees')
+sys.path.append('./bintrees-2.0.2/bintrees/')
 import logging
 import test_all_trees
 import coverage
 import random
 import os
 import unittest 
-cov=coverage.Coverage()
+from bintrees import BinaryTree, AVLTree, RBTree
 
+cov=coverage.Coverage(config_file=True)
 frontier = []
 param_list = []
 cov_list = []
@@ -37,7 +38,7 @@ def de():
             print "*"*40
             print cov_dict
             break
-    print basefrontier
+    # print basefrontier
     return basefrontier
     
 def update(frnt):
@@ -54,25 +55,32 @@ def update(frnt):
 
 def extrapolate(frnt,one,f,cf):
     two,three,four = threeOthers(frnt,one)
-    new = [0]*len(one)
-    # print "---"*40
-    # print len(new)
+    new = [[0]]*len(one)
+    # print "//"*40
+    # print len(one)
     #TODO: use numpy
     for i in range(len(one)):
         x,y,z = two[i],three[i],four[i]
-        print "&&"*40
+        # print "&&"*40
         # print one
-        print x
-        print y
-        print z
+        # print x
+        # print y
+        # print z
         #print int(f*len(one[i]))
         if random.random() < cf:
             ## these are lists. Do a change in the list
             # try:
-            for j in range(int(f*len(one[0][i]))):
-                new[random.randint(0,len(one[0][i])-1)] = x[random.randint(0,len(x)-1)]
-                new[random.randint(0,len(one[0][i])-1)] = y[random.randint(0,len(y)-1)]
-                new[random.randint(0,len(one[0][i])-1)] = z[random.randint(0,len(z)-1)]
+            # print "$"*45
+            # print(len(new))
+            new[i]=[0]*len(one[i])
+            for j in range(int(f*len(one[i]))):
+                r1 = random.randint(0,len(one[i])-1)
+                r2 = random.randint(0,len(one[i])-1)
+                r3 = random.randint(0,len(one[i])-1)
+                # print r1," ",r2," ",r3 
+                new[i][r1] = x[random.randint(0,len(x)-1)]
+                new[i][r2] = y[random.randint(0,len(y)-1)]
+                new[i][r3] = z[random.randint(0,len(z)-1)]
                     # print new
             #new[i] = int(x + f*(y - z))
             # except:
@@ -90,7 +98,7 @@ def better(x,new):
             x_list = i
             break
     global cov_dict
-    print cov_dict
+    #####print cov_dict
     list_coverage = cov_dict[x_list]
     if list_coverage > 0.75:
         return x
@@ -113,8 +121,7 @@ def threeOthers(frnt,avoid):
     return two,three,four
 
 def a(lst):
-    print "+"*40
-    print lst[random.randint(0,candidates-1)]
+    # print "+"*40
     return lst[random.randint(0,candidates-1)]
     
         
@@ -174,17 +181,39 @@ def generator(current_frontier):
             #CheckTree().check_em_too(params[0], params[1],params[2], params[3])
             #return
         cov.stop()
-        dict = cov.analysis2('test_all_trees.py')
-##        print dict
-        totLines = dict[1]
-        msdLines = dict[3]
-        linesExe = len(totLines) - len(msdLines)
-        linesExePc = (float)(linesExe)/ len(totLines)
-        cov_list.append(linesExePc)
-        cov_dict[i] = linesExePc
+        cov.save()
+        # cov.html_report()
+#         dict = cov.analysis2('test_all_trees.py')
+# ##        print dict
+#         totLines = dict[1]
+#         msdLines = dict[3]
+#         linesExe = len(totLines) - len(msdLines)
+#         linesExePc = (float)(linesExe)/ len(totLines)
+#         cov_list.append(linesExePc)
+#         cov_dict[i] = linesExePc
+        
+        # ../bintrees/bintree.py, test_all_trees.py
+        filename = os.path.join(os.getcwd(),)
+        # print "^^"*40
+        # print os.path.abspath('../bintrees/bintree.py')
+        #/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py
+        analyzedData = analyzeCoverageData(cov,'test_all_trees.py')
+        cov_list.append(analyzedData)
+        cov_dict[i] = analyzedData
     print "cov dict inside ",cov_dict
         
-##de()    
+##de()  
+def analyzeCoverageData(cov,filename):
+    dict = cov.analysis2(filename)
+    totLines = dict[1]
+    msdLines = dict[3]
+    linesExe = len(totLines) - len(msdLines)
+    linesExePc = (float)(linesExe)/ len(totLines)
+    
+    return linesExePc
+    #     cov_list.append(linesExePc)
+    #     cov_dict[i] = linesExePc
+    # print "cov dict inside ",cov_dict
 
 if __name__ == '__main__':
 
