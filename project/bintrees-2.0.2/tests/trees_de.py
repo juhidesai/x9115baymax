@@ -25,7 +25,7 @@ candidates = 200
 
 def de():
     basefrontier = generateFrontier()
-    print basefrontier
+    # print basefrontier
     for x in range(de_max):
         old  = basefrontier
         basefrontier = update(basefrontier)
@@ -60,23 +60,23 @@ def extrapolate(frnt,one,f,cf):
     #TODO: use numpy
     for i in range(len(one)):
         x,y,z = two[i],three[i],four[i]
-        # print "&&"*40
+        print "&&"*40
         # print one
-        # print x
-        # print y
-        # print z
+        print x
+        print y
+        print z
         #print int(f*len(one[i]))
         if random.random() < cf:
             ## these are lists. Do a change in the list
-            try:
-                for j in range(int(f*len(one[0][i]))):
-                    new[random.randint(0,len(one[0][i])-1)] = x[random.randint(0,len(x[i])-1)]
-                    new[random.randint(0,len(one[0][i])-1)] = y[random.randint(0,len(y[i])-1)]
-                    new[random.randint(0,len(one[0][i])-1)] = z[random.randint(0,len(z[i])-1)]
+            # try:
+            for j in range(int(f*len(one[0][i]))):
+                new[random.randint(0,len(one[0][i])-1)] = x[random.randint(0,len(x)-1)]
+                new[random.randint(0,len(one[0][i])-1)] = y[random.randint(0,len(y)-1)]
+                new[random.randint(0,len(one[0][i])-1)] = z[random.randint(0,len(z)-1)]
                     # print new
             #new[i] = int(x + f*(y - z))
-            except:
-                1==1
+            # except:
+            #     1==1
                 # print len(new), len(one)
         else:
             new[i] = one[i]
@@ -104,6 +104,8 @@ def threeOthers(frnt,avoid):
             x = a(frnt)
         seen.append(x)
         return x
+    # print "+"*40
+    # print frnt
     seen =[avoid]
     two = oneOther()
     three = oneOther()
@@ -111,6 +113,8 @@ def threeOthers(frnt,avoid):
     return two,three,four
 
 def a(lst):
+    print "+"*40
+    print lst[random.randint(0,candidates-1)]
     return lst[random.randint(0,candidates-1)]
     
         
@@ -122,13 +126,13 @@ def generateFrontier():
         p1 = []
         p2 = []
         p3 = []
-        for i in range(random.randint(1,40)):
+        for i in range(40):#random.randint(1,40)):
             p1.append(random.randint(1,99))
         
-        for i in range(random.randint(1,40)):
+        for i in range(20):#random.randint(1,40)):
             p2.append((random.randint(1,99), random.randint(1,99)))
             
-        for i in range(random.randint(1,40)):
+        for i in range(15):#random.randint(1,40)):
             p3.append((random.randint(1,99), random.randint(1,99)))
             
         a = (list(zip(p1,p1)), p2, p3)
