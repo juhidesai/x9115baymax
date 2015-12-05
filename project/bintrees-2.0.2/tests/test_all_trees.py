@@ -359,7 +359,6 @@ class _ABCTree(object):
     def update(self, *args):
         """T.update(E) -> None. Update T from E : for (k, v) in E: T[k] = v"""
 ##        print "88888888888888888888888888888888888"
-##        print "ronak suvks"
         for items in args:
             try:
                 generator = items.items()
@@ -827,43 +826,7 @@ class CPYTHON_ABCTree(_ABCTree):
             else:
                 return lambda x: start_key <= x < end_key
 
-
-class PYPY_ABCTree(CPYTHON_ABCTree):
-    def iter_items(self, start_key=None, end_key=None, reverse=False):
-        """Iterates over the (key, value) items of the associated tree,
-        in ascending order if reverse is True, iterate in descending order,
-        reverse defaults to False"""
-        # optimized for pypy, but slower on CPython
-        if self.is_empty():
-            return
-        direction = 1 if reverse else 0
-        other = 1 - direction
-        go_down = True
-        stack = []
-        node = self._root
-        in_range = self._get_in_range_func(start_key, end_key)
-
-        while True:
-            if node[direction] is not None and go_down:
-                stack.append(node)
-                node = node[direction]
-            else:
-                if in_range(node.key):
-                    yield node.key, node.value
-                if node[other] is not None:
-                    node = node[other]
-                    go_down = True
-                else:
-                    if not len(stack):
-                        return  # all done
-                    node = stack.pop()
-                    go_down = False
-
-if PYPY:
-    ABCTree = PYPY_ABCTree
-else:
-    ABCTree = CPYTHON_ABCTree
-
+ABCTree = CPYTHON_ABCTree
 
 
 
@@ -1053,6 +1016,7 @@ slicetest_data = slicetest_data_global
 def test_001_init():
         tree = TREE_CLASS()
         tree.update(default_values1)
+        len(tree)
 
 def test_002_init_with_dict():
     TREE_CLASS(dict(default_values1))
@@ -1066,11 +1030,14 @@ def test_004_init_with_tree():
 
 def test_005_iter_empty_tree():
     tree = TREE_CLASS()
-
+    list(tree)
+    
 def test_006_copy():
     tree1 = TREE_CLASS(default_values1)
     tree2 = tree1.copy()
-
+    list(tree1.items())
+    list(tree2.items())
+    
 def test_007_to_dict():
     tree = TREE_CLASS(default_values2)
     d = dict(tree)
@@ -1356,6 +1323,7 @@ def test_046_max_item_error():
 def test_047_min_key():
     tree = TREE_CLASS(zip(set3, set3))
     minkey = tree.min_key()
+    min(tree)
 
 def test_048_min_key_error():
     tree = TREE_CLASS()
@@ -1363,18 +1331,20 @@ def test_048_min_key_error():
 def test_049_max_key():
     tree = TREE_CLASS(zip(set3, set3))
     maxkey = tree.max_key()
+    max(tree)
 
 def test_050_min_key_error():
     tree = TREE_CLASS()
 
-# def test_051_prev_item():
-#     tree = TREE_CLASS(zip(set3, set3))
-#     prev_value = None
-#     for key in tree.keys():
-#         try:
-#             prev_item = tree.prev_item(key)
-#         except KeyError:  # only on first key
-#             print "key error"
+def test_051_prev_item():
+    tree = TREE_CLASS(zip(set3, set3))
+    prev_value = None
+    for key in tree.keys():
+        try:
+            prev_item = tree.prev_item(key)
+        except KeyError:  # only on first key
+            1==1
+            #print "key error"
         # if prev_value is not None:
         #     # assertEqual(prev_value, prev_item[1])
         # prev_value = key
@@ -1658,7 +1628,11 @@ def test_088_pickle_protocol():
 # [12, 34, 45, 16, 35, 57]
 def test_089_floor_item():
     tree = TREE_CLASS(default_values1)  # key == value
-    a,b,c=tree.floor_item(default_values1[0]),tree.floor_item(default_values1[0]),tree.floor_item(default_values1[0])
+    try:
+        a,b,c=tree.floor_item(12),tree.floor_item(13),tree.floor_item(60)
+    except:
+        1==1
+        #print "Error 089"
     # assertEqual(tree.floor_item(12), (12, 12))
     # assertEqual(tree.floor_item(13), (12, 12))
     # assertEqual(tree.floor_item(60), (57, 57))
@@ -1666,21 +1640,28 @@ def test_089_floor_item():
 def test_090a_floor_item_key_error():
     tree = TREE_CLASS(default_values1)  # key == value
     # with assertRaises(KeyError):
-    tree.floor_item(default_values1[0])
+    try:
+        tree.floor_item(11)
+    except:
+        1==1
+        #print "Error 090a"
 
-# def test_090b_floor_item_empty_tree():
-#     tree = TREE_CLASS()
-#     try:
-#         tree.floor_item(default_values1[0])
-#     except:
-#         print "kry error"
+def test_090b_floor_item_empty_tree():
+    tree = TREE_CLASS()
+    # with assertRaises(KeyError):
+    try:
+        tree.floor_item(11)
+    except:
+        1==1
+        #print "Error 090b"
 
 def test_091_floor_key():
     tree = TREE_CLASS(default_values1)  # key == value
     try:
-        a,b,c=tree.floor_key(default_values1[1]),tree.floor_key(default_values1[0]),tree.floor_key(default_values1[0])
+        a,b,c=tree.floor_key(12),tree.floor_key(13),tree.floor_key(60)
     except:
-        print "error"
+        1==1
+        # "Error 091"
     # assertEqual(tree.floor_key(12), 12)
     # assertEqual(tree.floor_key(13), 12)
     # assertEqual(tree.floor_key(60), 57)
@@ -1688,51 +1669,60 @@ def test_091_floor_key():
 def test_092_floor_key_key_error():
     tree = TREE_CLASS(default_values1)  # key == value
     # with assertRaises(KeyError):
-    tree.floor_key(default_values1[0])
+    try:
+        tree.floor_key(11)
+    except:
+        1==1
+        #print "Error 092"
 
-# def test_093_ceiling_item():
-#     tree = TREE_CLASS(default_values1)  # key == value
-#     try:
-#         a,b,c=tree.ceiling_item(default_values1[1]),tree.ceiling_item(default_values1[1]),tree.ceiling_item(default_values1[1])
-#     except:
-#         print "error 093"
+def test_093_ceiling_item():
+    tree = TREE_CLASS(default_values1)  # key == value
+    try:
+        a,b,c=tree.ceiling_item(57),tree.ceiling_item(56),tree.ceiling_item(0)
+    except:
+        1==1
+        #print "Error 093"
     # assertEqual(tree.ceiling_item(57), (57, 57))
     # assertEqual(tree.ceiling_item(56), (57, 57))
     # assertEqual(tree.ceiling_item(0), (12, 12))
 
-# def test_094a_ceiling_item_key_error():
-#     tree = TREE_CLASS(default_values1)  # key == value
-#     # with assertRaises(KeyError):
-#     try:
-#         tree.ceiling_item(60)
-#     except:
-#         print "error 094a"
+def test_094a_ceiling_item_key_error():
+    tree = TREE_CLASS(default_values1)  # key == value
+    # with assertRaises(KeyError):
+    try:
+        tree.ceiling_item(60)
+    except:
+        1==1
+        #print "Error 094a"
 
-# def test_094a_ceiling_item_empty_tree():
-#     tree = TREE_CLASS()
-#     # with assertRaises(KeyError):
-#     try:
-#         tree.ceiling_item(60)
-#     except:
-#         print "error 094a"
+def test_094a_ceiling_item_empty_tree():
+    tree = TREE_CLASS()
+    # with assertRaises(KeyError):
+    try:
+        tree.ceiling_item(60)
+    except:
+        1==1
+        #print "Error 094a"
 
 def test_095_ceiling_key():
     tree = TREE_CLASS(default_values1)  # key == value
     try:
         a,b,c=tree.ceiling_key(57),tree.ceiling_key(56),tree.ceiling_key(0)
     except:
-        print "error 095"
+        1==1
+        #print "Error 095"
     # assertEqual(tree.ceiling_key(57), 57)
     # assertEqual(tree.ceiling_key(56), 57)
     # assertEqual(tree.ceiling_key(0), 12)
 
-# def test_096_ceiling_key_key_error():
-#     tree = TREE_CLASS(default_values1)  # key == value
-#     # with assertRaises(KeyError):
-#     try:
-#         tree.ceiling_item(60)
-#     except:
-#         print "error 096"
+def test_096_ceiling_key_key_error():
+    tree = TREE_CLASS(default_values1)  # key == value
+    # with assertRaises(KeyError):
+    try:
+        tree.ceiling_key(60)
+    except:
+        1==1
+        #print "Error 096"
 
 def test_097_data_corruption():
     # Data corruption in FastRBTree in all versions before 1.0.2:
@@ -1873,7 +1863,7 @@ def aaa(a,b,c):
     test_048_min_key_error()
     test_049_max_key()
     test_050_min_key_error()
-    # test_051_prev_item()
+    test_051_prev_item()
     test_052_prev_key_extreme()
     test_053_prev_item_error()
     test_054_succ_item()
@@ -1908,14 +1898,14 @@ def aaa(a,b,c):
     test_088_pickle_protocol()
     test_089_floor_item()
     test_090a_floor_item_key_error()
-    # test_090b_floor_item_empty_tree()
+    test_090b_floor_item_empty_tree()
     test_091_floor_key()
     test_092_floor_key_key_error()
-    # test_093_ceiling_item()
-    # test_094a_ceiling_item_key_error()
-    # test_094a_ceiling_item_empty_tree()
-    # test_095_ceiling_key()
-    # test_096_ceiling_key_key_error()
+    test_093_ceiling_item()
+    test_094a_ceiling_item_key_error()
+    test_094a_ceiling_item_empty_tree()
+    test_095_ceiling_key()
+    test_096_ceiling_key_key_error()
     test_097_data_corruption()
     test_098_foreach()
         # except:

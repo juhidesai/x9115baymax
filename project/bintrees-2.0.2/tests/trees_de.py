@@ -1,16 +1,19 @@
 import nose
 import sys
-#import bintrees
-##sys.path.appen d('./bintrees-2.0.2/bintrees/')
 import logging
-import test_all_trees
-import coverage
 import random
 import os
-import unittest 
-#from bintrees import BinaryTree, AVLTree, RBTree
+import unittest
 
+import coverage
 cov=coverage.Coverage(config_file=True)
+cov.start()
+
+
+import test_all_trees
+import bintrees
+from bintrees import BinaryTree, AVLTree, RBTree
+
 frontier = []
 param_list = []
 cov_list = []
@@ -20,21 +23,23 @@ main_lists = []
 n = 10
 de_max = 50
 f = 0.75
-cf = 0.3
-patience = 1
+cf = 0.30
+patience = 5
 candidates = 200
 
 def de():
     basefrontier = generateFrontier()
-    print "?"*20
-    print basefrontier
+    # print basefrontier
     for x in range(de_max):
         old  = basefrontier
         basefrontier = update(basefrontier)
-        if old == basefrontier:
-            print "?"*20
-            print "No change"
-            print "?"*20
+##        if old == basefrontier:
+##            print "%"*40
+##            print "No Change"
+##            print old[0]
+##            print "base"
+##            print basefrontier[0]
+##            return
         global patience,cov_dict,prev_cov_dict
         if patience == 0:
             print "*"*40
@@ -42,23 +47,29 @@ def de():
             print "*"*40
             print cov_dict
             break
-    
     # print basefrontier
     return basefrontier
     
 def update(frnt):
-##    print "in update"
+    print "in update"
+##    print frnt[0]
     global patience
     generator(frnt)
     if cov_dict == prev_cov_dict:
         print "No change in coverage"
         patience -= 1
+##    print len(frnt)
     for i,x in enumerate(frnt):
         newx = extrapolate(frnt,x,f,cf)
         frnt[i] = better(x,newx)
+##        print len(frnt)
+    
     return frnt
 
 def extrapolate(frnt,one,f,cf):
+    if len(frnt)==3:
+        print "Gotcha"
+        print frnt
     two,three,four = threeOthers(frnt,one)
     new = [[0]]*len(one)
     # print "//"*40
@@ -78,6 +89,7 @@ def extrapolate(frnt,one,f,cf):
             # print "$"*45
             # print(len(new))
             new[i]=[0]*len(one[i])
+            new[i] = one[i]
             for j in range(int(f*len(one[i]))):
                 r1 = random.randint(0,len(one[i])-1)
                 r2 = random.randint(0,len(one[i])-1)
@@ -91,6 +103,8 @@ def extrapolate(frnt,one,f,cf):
             # except:
             #     1==1
                 # print len(new), len(one)
+##            print "New ",new
+##            print "One ",one
         else:
             new[i] = one[i]
     return tuple(new)
@@ -103,10 +117,12 @@ def better(x,new):
             x_list = i
             break
     global cov_dict
-    # print cov_dict
+    #####print cov_dict
     list_coverage = cov_dict[x_list]
+##    print "()"*20
     if list_coverage > 0.75:
         return x
+##    print "returning new"
     return new
         
 
@@ -126,7 +142,9 @@ def threeOthers(frnt,avoid):
     return two,three,four
 
 def a(lst):
-    # print "+"*40
+##    print "+"*40
+##    print len(lst)
+##    print candidates
     return lst[random.randint(0,candidates-1)]
     
         
@@ -160,6 +178,7 @@ def test_de():
 def generator(current_frontier):
 ##    print current_frontier
     print "inside"
+    mean = 0
     global cov_dict,prev_cov_dict
     prev_cov_dict = cov_dict
     main_lists = [current_frontier[i:i+n] for i in range(0,len(current_frontier),n)]
@@ -184,7 +203,7 @@ def generator(current_frontier):
             #                 'test_all_trees.py',
             #                 '-v', '--nocapture'])
             #CheckTree().check_em_too(params[0], params[1],params[2], params[3])
-            #return
+##            return
         cov.stop()
         cov.save()
         cov.html_report()
@@ -203,11 +222,12 @@ def generator(current_frontier):
         # print os.path.abspath('../bintrees/bintree.py')
         #/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py
         #os.path.join(os.path.abspath('../'),'/bintrees/bintree.py')
-        #C:\Users\Juhi\Desktop\notes\sem 3\ASE\git repo\x9115baymax\project\bintrees-2.0.2\bintrees
         analyzedData = analyzeCoverageData(cov,"C:\Users\Juhi\Desktop\notes\sem 3\ASE\git repo\x9115baymax\project\bintrees-2.0.2\bintrees")
         cov_list.append(analyzedData)
         cov_dict[i] = analyzedData
+        mean+=analyzedData
     print "cov dict inside ",cov_dict
+    print "Mean cov is ",float(mean)/(candidates/n)
         
 ##de()  
 def analyzeCoverageData(cov,filename):
