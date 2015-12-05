@@ -21,16 +21,20 @@ n = 10
 de_max = 50
 f = 0.75
 cf = 0.3
-patience = 5
+patience = 1
 candidates = 200
 
 def de():
     basefrontier = generateFrontier()
-    # print basefrontier
+    print "?"*20
+    print basefrontier
     for x in range(de_max):
         old  = basefrontier
         basefrontier = update(basefrontier)
-
+        if old == basefrontier:
+            print "?"*20
+            print "No change"
+            print "?"*20
         global patience,cov_dict,prev_cov_dict
         if patience == 0:
             print "*"*40
@@ -38,6 +42,7 @@ def de():
             print "*"*40
             print cov_dict
             break
+    
     # print basefrontier
     return basefrontier
     
@@ -98,7 +103,7 @@ def better(x,new):
             x_list = i
             break
     global cov_dict
-    #####print cov_dict
+    # print cov_dict
     list_coverage = cov_dict[x_list]
     if list_coverage > 0.75:
         return x
@@ -179,7 +184,7 @@ def generator(current_frontier):
             #                 'test_all_trees.py',
             #                 '-v', '--nocapture'])
             #CheckTree().check_em_too(params[0], params[1],params[2], params[3])
-            return
+            #return
         cov.stop()
         cov.save()
         cov.html_report()
@@ -198,6 +203,7 @@ def generator(current_frontier):
         # print os.path.abspath('../bintrees/bintree.py')
         #/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py
         #os.path.join(os.path.abspath('../'),'/bintrees/bintree.py')
+        #C:\Users\Juhi\Desktop\notes\sem 3\ASE\git repo\x9115baymax\project\bintrees-2.0.2\bintrees
         analyzedData = analyzeCoverageData(cov,"C:\Users\Juhi\Desktop\notes\sem 3\ASE\git repo\x9115baymax\project\bintrees-2.0.2\bintrees")
         cov_list.append(analyzedData)
         cov_dict[i] = analyzedData
