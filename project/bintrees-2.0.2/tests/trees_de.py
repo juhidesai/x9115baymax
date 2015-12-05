@@ -205,9 +205,10 @@ def generator(current_frontier):
         
 ##de()  
 def analyzeCoverageData(cov,filename):
-    dict = cov.analysis2("C:\\python27\\lib\\site-packages\\bintrees\\bintree.py")
+##    dict = cov.analysis2("C:\\python27\\lib\\site-packages\\bintrees\\bintree.py")
 ##    dict = cov.analysis2("C:\\Users\\Juhi\\Desktop\\notes\\sem 3\\ASE\\git repo\\x9115baymax\\project\\bintrees-2.0.2\\bintrees\\bintree.py")
-    print dict
+    dict = cov.analysis2("test_all_trees.py")
+##    print dict
     totLines = dict[1]
     msdLines = dict[3]
     linesExe = len(totLines) - len(msdLines)
