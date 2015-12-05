@@ -1,7 +1,7 @@
 import nose
 import sys
 import bintrees
-sys.path.append('./bintrees-2.0.2/bintrees/')
+##sys.path.appen d('./bintrees-2.0.2/bintrees/')
 import logging
 import test_all_trees
 import coverage
@@ -21,7 +21,7 @@ n = 10
 de_max = 50
 f = 0.75
 cf = 0.3
-patience = 15
+patience = 5
 candidates = 200
 
 def de():
@@ -161,20 +161,20 @@ def generator(current_frontier):
     
     for i,sub_list in enumerate(main_lists):
 ##        print i," ",sub_list
-        cov.erase()
+##        cov.erase()
         cov.start()
         for params in sub_list:
 ##            check_em(params[0], params[1])
             # os.system("test_all_trees.py")
             
             
-            def_values1 = list(zip([13, 13, 13], [13, 13, 13]))
-            def_values2 = [(3, 12), (9, 35), (8, 95), (1, 16), (3, 57)]
-            slicetest_data_global = [(1, 1), (2, 2), (3, 3), (4, 4), (8, 8), (9, 9), (10, 10), (11, 11)]
+            def_values1 = params[0]#list(zip([13, 13, 13], [13, 13, 13]))
+            def_values2 = params[1]#[(3, 12), (9, 35), (8, 95), (1, 16), (3, 57)]
+            slicetest_data_global = params[2]#[(1, 1), (2, 2), (3, 3), (4, 4), (8, 8), (9, 9), (10, 10), (11, 11)]
 
             #test_all_trees.aaa()
             test_all_trees.aaa(def_values1, def_values2, slicetest_data_global)
-            
+##            test_001_init(def_values1)
             # result = nose.run(argv=[
             #                 'test_all_trees.py',
             #                 '-v', '--nocapture'])
@@ -182,7 +182,7 @@ def generator(current_frontier):
             #return
         cov.stop()
         cov.save()
-        # cov.html_report()
+        cov.html_report()
 #         dict = cov.analysis2('test_all_trees.py')
 # ##        print dict
 #         totLines = dict[1]
@@ -197,14 +197,17 @@ def generator(current_frontier):
         # print "^^"*40
         # print os.path.abspath('../bintrees/bintree.py')
         #/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py
-        analyzedData = analyzeCoverageData(cov,'/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py')
+        #os.path.join(os.path.abspath('../'),'/bintrees/bintree.py')
+        analyzedData = analyzeCoverageData(cov,"C:\Users\Juhi\Desktop\notes\sem 3\ASE\git repo\x9115baymax\project\bintrees-2.0.2\bintrees")
         cov_list.append(analyzedData)
         cov_dict[i] = analyzedData
     print "cov dict inside ",cov_dict
         
 ##de()  
 def analyzeCoverageData(cov,filename):
-    dict = cov.analysis2(filename)
+    dict = cov.analysis2("C:\\python27\\lib\\site-packages\\bintrees\\bintree.py")
+##    dict = cov.analysis2("C:\\Users\\Juhi\\Desktop\\notes\\sem 3\\ASE\\git repo\\x9115baymax\\project\\bintrees-2.0.2\\bintrees\\bintree.py")
+    print dict
     totLines = dict[1]
     msdLines = dict[3]
     linesExe = len(totLines) - len(msdLines)
@@ -212,8 +215,17 @@ def analyzeCoverageData(cov,filename):
     
     return linesExePc
     #     cov_list.append(linesExePc)
-    #     cov_dict[i] = linesExePc
+    #      cov_dict[i] = linesExePc
     # print "cov dict inside ",cov_dict
+
+
+##def test_001_init(default_values1):
+##    cov.erase()
+##    cov.start()
+##    tree = TREE_CLASS()
+##    tree.update(default_values1)
+##    cov.stop()
+
 
 if __name__ == '__main__':
 

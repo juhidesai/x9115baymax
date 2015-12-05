@@ -14,12 +14,14 @@ import subprocess
 
 import unittest
 import pickle
-sys.path.append('./bintrees-2.0.2/bintrees/bintree.py')
+##sys.path.append('./bintrees-2.0.2/bintrees/bintree.py')
 from random import randint, shuffle
-
+import coverage
 from bintrees import BinaryTree, AVLTree, RBTree
 
 #import BinaryTree
+
+##cov=coverage.Coverage()
 set3 = [34, 67, 89, 123, 3, 7, 9, 2, 0, 999]
 
 def_values1 = list(zip([13, 13, 13], [13, 13, 13]))
@@ -776,6 +778,8 @@ def test_001_init():
 # #     TREE_CLASS = FastRBTree
 
 def aaa(a,b,c):
+##    cov.erase()
+##    cov.start()
     global def_values1
     global def_values2
     global slicetest_data_global
@@ -809,6 +813,7 @@ def aaa(a,b,c):
         # print func_name
             # print "Exception ",sys.exc_info()[0]
             # continue
+##    cov.stop()
     
     
 def getNames(filename):
