@@ -179,7 +179,7 @@ def generator(current_frontier):
             #                 'test_all_trees.py',
             #                 '-v', '--nocapture'])
             #CheckTree().check_em_too(params[0], params[1],params[2], params[3])
-            #return
+            return
         cov.stop()
         cov.save()
         cov.html_report()
