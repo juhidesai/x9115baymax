@@ -1367,14 +1367,14 @@ def test_049_max_key():
 def test_050_min_key_error():
     tree = TREE_CLASS()
 
-def test_051_prev_item():
-    tree = TREE_CLASS(zip(set3, set3))
-    prev_value = None
-    for key in tree.keys():
-        try:
-            prev_item = tree.prev_item(key)
-        except KeyError:  # only on first key
-            print "key error"
+# def test_051_prev_item():
+#     tree = TREE_CLASS(zip(set3, set3))
+#     prev_value = None
+#     for key in tree.keys():
+#         try:
+#             prev_item = tree.prev_item(key)
+#         except KeyError:  # only on first key
+#             print "key error"
         # if prev_value is not None:
         #     # assertEqual(prev_value, prev_item[1])
         # prev_value = key
@@ -1668,12 +1668,12 @@ def test_090a_floor_item_key_error():
     # with assertRaises(KeyError):
     tree.floor_item(default_values1[0])
 
-def test_090b_floor_item_empty_tree():
-    tree = TREE_CLASS()
-    try:
-        tree.floor_item(default_values1[0])
-    except:
-        print "kry error"
+# def test_090b_floor_item_empty_tree():
+#     tree = TREE_CLASS()
+#     try:
+#         tree.floor_item(default_values1[0])
+#     except:
+#         print "kry error"
 
 def test_091_floor_key():
     tree = TREE_CLASS(default_values1)  # key == value
@@ -1690,31 +1690,31 @@ def test_092_floor_key_key_error():
     # with assertRaises(KeyError):
     tree.floor_key(default_values1[0])
 
-def test_093_ceiling_item():
-    tree = TREE_CLASS(default_values1)  # key == value
-    try:
-        a,b,c=tree.ceiling_item(default_values1[1]),tree.ceiling_item(default_values1[1]),tree.ceiling_item(default_values1[1])
-    except:
-        print "error 093"
+# def test_093_ceiling_item():
+#     tree = TREE_CLASS(default_values1)  # key == value
+#     try:
+#         a,b,c=tree.ceiling_item(default_values1[1]),tree.ceiling_item(default_values1[1]),tree.ceiling_item(default_values1[1])
+#     except:
+#         print "error 093"
     # assertEqual(tree.ceiling_item(57), (57, 57))
     # assertEqual(tree.ceiling_item(56), (57, 57))
     # assertEqual(tree.ceiling_item(0), (12, 12))
 
-def test_094a_ceiling_item_key_error():
-    tree = TREE_CLASS(default_values1)  # key == value
-    # with assertRaises(KeyError):
-    try:
-        tree.ceiling_item(60)
-    except:
-        print "error 094a"
+# def test_094a_ceiling_item_key_error():
+#     tree = TREE_CLASS(default_values1)  # key == value
+#     # with assertRaises(KeyError):
+#     try:
+#         tree.ceiling_item(60)
+#     except:
+#         print "error 094a"
 
-def test_094a_ceiling_item_empty_tree():
-    tree = TREE_CLASS()
-    # with assertRaises(KeyError):
-    try:
-        tree.ceiling_item(60)
-    except:
-        print "error 094a"
+# def test_094a_ceiling_item_empty_tree():
+#     tree = TREE_CLASS()
+#     # with assertRaises(KeyError):
+#     try:
+#         tree.ceiling_item(60)
+#     except:
+#         print "error 094a"
 
 def test_095_ceiling_key():
     tree = TREE_CLASS(default_values1)  # key == value
@@ -1726,13 +1726,13 @@ def test_095_ceiling_key():
     # assertEqual(tree.ceiling_key(56), 57)
     # assertEqual(tree.ceiling_key(0), 12)
 
-def test_096_ceiling_key_key_error():
-    tree = TREE_CLASS(default_values1)  # key == value
-    # with assertRaises(KeyError):
-    try:
-        tree.ceiling_item(60)
-    except:
-        print "error 096"
+# def test_096_ceiling_key_key_error():
+#     tree = TREE_CLASS(default_values1)  # key == value
+#     # with assertRaises(KeyError):
+#     try:
+#         tree.ceiling_item(60)
+#     except:
+#         print "error 096"
 
 def test_097_data_corruption():
     # Data corruption in FastRBTree in all versions before 1.0.2:

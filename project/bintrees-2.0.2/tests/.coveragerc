@@ -1,0 +1,4 @@
+[RUN]
+
+source = test_all_trees.py
+          ../bintrees/

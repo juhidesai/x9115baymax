@@ -1,6 +1,6 @@
 import nose
 import sys
-import bintrees
+#import bintrees
 ##sys.path.appen d('./bintrees-2.0.2/bintrees/')
 import logging
 import test_all_trees
@@ -8,7 +8,7 @@ import coverage
 import random
 import os
 import unittest 
-from bintrees import BinaryTree, AVLTree, RBTree
+#from bintrees import BinaryTree, AVLTree, RBTree
 
 cov=coverage.Coverage(config_file=True)
 frontier = []
