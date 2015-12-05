@@ -197,7 +197,7 @@ def generator(current_frontier):
         # print "^^"*40
         # print os.path.abspath('../bintrees/bintree.py')
         #/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py
-        analyzedData = analyzeCoverageData(cov,'test_all_trees.py')
+        analyzedData = analyzeCoverageData(cov,'/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py')
         cov_list.append(analyzedData)
         cov_dict[i] = analyzedData
     print "cov dict inside ",cov_dict
