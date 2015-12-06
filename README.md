@@ -16,7 +16,7 @@ Ronak Nisher (rpnisher)
 1. Optimizer  
    An optimizer is a piece of code that makes your input, code or any entity that you care about better. In case of our model, the optimizer will optimize the inputs given to test cases.  
 
-2. Differential Evolution
+2. Differential Evolution  
    Differential evolution is an algorithm that is used to optimize a model in an iterative fashion based on a pre determined quality factor.  
 
 3. Code Coverage  
@@ -41,17 +41,25 @@ What is the ideal set of inputs that the code should be tested with to achieve h
 
 ## The Optimizer  
 
-As our optimizer, we are using the differential evolution method. (insert from class notes here)
+As our optimizer, we are using the differential evolution method. "Differential evolution (DE) is a method that optimizes a problem by iteratively trying to improve a candidate solution with regard to a given measure of quality. Such methods are commonly known as metaheuristics as they make few or no assumptions about the problem being optimized and can search very large spaces of candidate solutions. However, metaheuristics such as DE do not guarantee an optimal solution is ever found." [4]  
+
+DE optimizes a problem by maintaining a population of candidate solutions (frontier) and creating new candidate solutions by taking one (randomly chosen), selecting three other than the one selected, combining values of those three and creating a new candiate. If the new candidate is better than the first one, we replace that with the new candidate.  
 
 ## Our Algorithm  
+
 Our core algoritm follows the usual DE algoritm with changes in the parts of generating and extrapolating from candidates. Another point in the difference is that we run code coverage on each set of candidates. This passes control to an external entity which calculates the coverage values which would be later on used for checking which one is better.  
+
+Step 1. A frontier with randomly generated inputs is prepared.
+Step 2. Code coverage for required function(s) is calculated.
+Step 3. If code coverage is less than threshold, a new candidate is created. If the new candidate is better than the parent, the parent is replaced.
+Step 4. Step 2 and Step 3 are repeated till patience runs out, or coverage equal to or greater than the threshold is reached.  
 
 ## Our Approaches  
 
 1. Varying type of inputs  
-   We allow having various types of inputs like Integers, Reals, Strings and Lists. As of now, each input type has it's own different code which has it's own way of generating new children based on 3 other candidates. This can be easily turned into a unifieed and more general approach in the future.  
+   We allow having various types of inputs like Integers, Reals, Strings and Lists. As of now, each input type has it's own different code which has it's own way of generating new children based on 3 other candidates. This can be easily turned into a unified and more general approach in the future.  
 
-The reason a single way would not work is because each input type has it's own differenent characteristic and willl not conform to a restricted type of manipulation. The current ways in which we do this are as follows:  
+The reason a single way would not work is because each input type has it's own differenent characteristic and will not conform to a restricted type of manipulation. The current ways in which we do this are as follows:  
 
 -- Integer: PUT EQUATION HERE  
 
@@ -65,14 +73,23 @@ The reason a single way would not work is because each input type has it's own d
   
   
 2. Executing on an open source repository  
-   Being able to run this algorithm on your test cases and project is a very important aspect of this project. To help ease this, we had a use case scenario where we took an open source project and ran our algorithm on its test cases. There is a single point entry in the code in the generator method which can be used to call all other functions that you care about. the option of which functions to take are left with the userin that single entry function. We had to put up a few conditions on the way the test case files are structures to be able to run our algorithm with ease. The code and test cases should be in the same file. This condition is mostly due to the way coverage is calculated by the coverage library. This restriction should be removed in the future work.
+   Being able to run this algorithm on your test cases and project is a very important aspect of this project. To help ease this, we had a use case scenario where we took an open source project and ran our algorithm on its test cases. There is a single point entry in the code in the generator method which can be used to call all other functions that you care about. the option of which functions to take are left with the user in that single entry function. We had to put up a few conditions on the way the test case files are structured to be able to run our algorithm with ease. The code and test cases should be in the same file. This condition is mostly due to the way coverage is calculated by the coverage library. This restriction should be removed in the future work.
 
-## Modifications needed to run the optimizer
-  If the input type is different than any of the above, the generation and extrapolation functions would need to be modified accordingly. The test cases should also include the code in the same file.
+## Modifications needed to run the optimizer  
+
+To run DE with different types of inputs, we had to change the way frontier was generated and how the extrapolation was done. For the open source bintrees project, the frontier was a list of 200 candidates, each candidate was a tuple containing 3 lists. For integers and real numbers, the frontier was a list of 200 candidates, each candidate was a tuple containing 2 values. For string, each candidate was a tuple containing 4 strings.  
+
+## Problems Faced  
+
+While dealing with the open source repository, there were issues with calculating the coverage of the actual code. This was mainly due to the fact that this repository was on trees, which is separately installed as a package for Python. We were unable to calculate the coverage on the actual source files because of this.  
+
+As a work-around, we had to remove the import statements, and pull the source code into the test file itself. This problem should not occur for repositories which have a separate installation.  
 
 ## Results  
 
-## Threats to Validity  
+## Threats to Validity   
+
+If the input type is different than any of the above, the generation and extrapolation functions would need to be modified accordingly. The test cases should also include the code in the same file.
 
 ## Conclusion  
 
@@ -82,7 +99,7 @@ Currently, we have to call each test case explicitly. A possible improvement wou
 Also, the algorithm needs to be modified to run with different types of input, the same code cannot be used with integers and lists currently.
 
 ## References  
-
-1. Ned Batcders covergae.py
-2. class slides
-3. bitbucket link for bintrees2.0.2
+1. [Ned Batchelder's coverage.py](https://coverage.readthedocs.org/en/coverage-4.0b3/index.html)
+2. [Lecture Notes](https://github.com/txt/mase/blob/master/DE.md)
+3. [Bintrees Repository] (https://bitbucket.org/mozman/bintrees/overview)
+4. [Differential Evolution, Wikipedia](https://en.wikipedia.org/wiki/Differential_evolution)
