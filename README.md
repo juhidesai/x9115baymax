@@ -53,9 +53,9 @@ DE optimizes a problem by maintaining a population of candidate solutions (front
 
 Our core algoritm follows the usual DE algoritm with changes in the parts of generating and extrapolating from candidates. Another point in the difference is that we run code coverage on each set of candidates. This passes control to an external entity which calculates the coverage values which would be later on used for checking which one is better.  
 
-Step 1. A frontier with randomly generated inputs is prepared.
-Step 2. Code coverage for required function(s) is calculated.
-Step 3. If code coverage is less than threshold, a new candidate is created. If the new candidate is better than the parent, the parent is replaced.
+Step 1. A frontier with randomly generated inputs is prepared.  
+Step 2. Code coverage for required function(s) is calculated.  
+Step 3. If code coverage is less than threshold, a new generation is created. If the new candidate is better than the parent, the parent is replaced.  
 Step 4. Step 2 and Step 3 are repeated till patience runs out, or coverage equal to or greater than the threshold is reached.  
 
 ## Our Approaches  
