@@ -43,8 +43,6 @@ Nowadays, emphasis is placed on testing any code that gets shipped. To achieve t
  
  The crux of the optimization lies in generating the inputs. To achieve this, we make use of Differential Equation to generate better candidates in the next generation. The DE algorithm is configurable to change parameters like number of candidates, number of runs, patience etc.
  
- //We generate a frontier of 200 candidates and optimize it using DE's equation.  
-
 ## The Optimizer  
 
 As our optimizer, we are using the differential evolution method. "Differential evolution (DE) is a method that optimizes a problem by iteratively trying to improve a candidate solution with regard to a given measure of quality. Such methods are commonly known as metaheuristics as they make few or no assumptions about the problem being optimized and can search very large spaces of candidate solutions. However, metaheuristics such as DE do not guarantee an optimal solution is ever found." [4]  
@@ -67,16 +65,57 @@ Step 4. Step 2 and Step 3 are repeated till patience runs out, or coverage equal
 
 The reason a single way would not work is because each input type has it's own differenent characteristic and will not conform to a restricted type of manipulation. The current ways in which we do this are as follows:  
 
--- Integer: PUT EQUATION HERE  
+-- Integer:
 
--- Reals: PUT EQUATION HERE  
+       if random.random() < cf:
+            new[i] = int(x + f*(y - z))
+        else:
+            new[i] = one[i]  
+            
+    x,y and z are 3 other candidates from same generation as parent(one)
+    f is the controlling factor  
+    cf is probability of change
 
--- Strings:  PUT EQUATION HERE
+-- Reals:  
+
+       if random.random() < cf:
+               new[i] = x + f*(y - z)
+           else:
+               new[i] = one[i]
+    x,y and z are 3 other candidates from same generation as parent(one)
+    f is the controlling factor  
+    cf is probability of change           
+   
+
+-- Strings:  
+
+       if random.random() < cf:
+            tmp = int(x + f*(y - z))
+            new[i] = trim(tmp)
+        else:
+            new[i] = one[i]
+    x,y and z are 3 other candidates from same generation as parent(one)
+    f is the controlling factor  
+    cf is probability of change
 
 -- Lists:  we replace a portion of the existing list by randomly replacing it with another element from another candidate. The amount of portion is controlled by a factor 'cf'.  
 
-  PUT CODE SNIPPETS IN ALL IF POSSIBLE  
-  
+         if random.random() < cf:
+            new[i]=[0]*len(one[i])
+            new[i] = one[i]
+            for j in range(int(f*len(one[i]))):
+                r1 = random.randint(0,len(one[i])-1)
+                r2 = random.randint(0,len(one[i])-1)
+                r3 = random.randint(0,len(one[i])-1)
+                new[i][r1] = x[random.randint(0,len(x)-1)]
+                new[i][r2] = y[random.randint(0,len(y)-1)]
+                new[i][r3] = z[random.randint(0,len(z)-1)]
+        else:
+            new[i] = one[i]
+    x,y and z are 3 other candidates from same generation as parent(one)
+    f is the controlling factor  
+    cf is probability of change
+
   
 2. Executing on an open source repository  
    Being able to run this algorithm on your test cases and project is a very important aspect of this project. To help ease this, we had a use case scenario where we took an open source project and ran our algorithm on its test cases. There is a single point entry in the code in the generator method which can be used to call all other functions that you care about. the option of which functions to take are left with the user in that single entry function. We had to put up a few conditions on the way the test case files are structured to be able to run our algorithm with ease. The code and test cases should be in the same file. This condition is mostly due to the way coverage is calculated by the coverage library. This restriction should be removed in the future work.
@@ -98,6 +137,8 @@ As a work-around, we had to remove the import statements, and pull the source co
 If the input type is different than any of the above, the generation and extrapolation functions would need to be modified accordingly. The test cases should also include the code in the same file.
 
 ## Conclusion  
+
+The algorithm developed by us for this project was tested on an open source project [4]. We managed to generate an input with coverage of a little over 95% while the original inputs that were used in the project had a coverage of 91%. This is an indication that Differential Evolution based input generation algorithms can generate inputs to test cases with a high coverage. The tests with other input types also got a consistently high coverage of above 95% (losing the 5% because of the way coverage libraries measured the coverage wherein they reported def function_names as executable missed statements). This goes on to show that the algorithm implemented can work on different types of inputs as well. 
 
 ## Future Work  
 
