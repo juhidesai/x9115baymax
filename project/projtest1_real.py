@@ -20,15 +20,18 @@ Ran 3 tests in 0.005s
 
 OK
 '''
+import coverage
+cov=coverage.Coverage()
+cov.start()
 import nose
 import sys
 import logging
 import test_maincode_real
 from test_maincode_real import *
-import coverage
+
 import random
 
-cov=coverage.Coverage()
+
 
 frontier = []
 param_list = []
@@ -157,12 +160,14 @@ def generator(current_frontier):
     
     for i,sub_list in enumerate(main_lists):
 ##        print i," ",sub_list
-        cov.erase()
+##        cov.erase()
         cov.start()
         for params in sub_list:
 ##            check_em(params[0], params[1])
             check_em(params[0], params[1])
         cov.stop()
+        cov.save()
+        cov.html_report()
         dict = cov.analysis2('test_maincode_real.py')
 ##        print dict
         totLines = dict[1]
