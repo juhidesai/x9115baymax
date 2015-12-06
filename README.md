@@ -37,7 +37,11 @@ The real world problem, or "Model", that we are trying to optimize is of test ca
 
 ## The Optimization Problem
 
-What is the ideal set of inputs that the code should be tested with to achieve high code coverage? We try to give a set of inputs that will maximize code coverage for the given code base. We generate a frontier of 200 candidates and optimize it using DE's equation.  
+Nowadays, emphasis is placed on testing any code that gets shipped. To achieve this, testers and developers need to write test cases and ensure code coverage atleast upto a predetermied threshold. To write effective test cases with appropriate coverage, good test cases and inputs should be used. Deciding which test case inputs will achieve this goal is a time consuming preocess. The most important factor in that is to answer the question "What is the ideal set of inputs that the code should be tested with to achieve high code coverage?" Our model comes in to solve this problem of generating test case inputs which are optimal. Given an input test case/function, our code can run through it and give the input test case that maximizes code coverae over that piece of code.
+ 
+ The crux of the optimization lies in generating the inputs. To achieve this, we make use of Differential Equation to generate better candidates in the next generation. The DE algorithm is configurable to change parameters like number of candidates, number of runs, patience etc.
+ 
+ //We generate a frontier of 200 candidates and optimize it using DE's equation.  
 
 ## The Optimizer  
 
