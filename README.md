@@ -11,6 +11,8 @@ Ronak Nisher (rpnisher)
 
 ## Abstract  
 
+Testing of applications and code is an important part of the software development lifecycle. Higher code coverage is a sign of a thoroughly tested code. The process of writing inputs which would achieve the required for the test cases is a manual and time consuming process. The tool developed and documented in this report is aimed to automate this process. The tool can can give the input which can be used as in test cases to ensure a high coverage. The algorithm used in the tool is based on Differential Evolution and uses code coverage as a criteria to ensure better set of candidates in the next generation.  
+
 ## Keywords
 
 1. Optimizer  
