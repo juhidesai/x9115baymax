@@ -33,6 +33,22 @@ This technical report covers the project for CSC591: Automated Software Engineer
 
 ## Related Work  
 
+There is literature available that revolves around dynamically generating test case inputs/test data generation but a majority of them are based on Java as an underlying language. There is very little done for Python. 
+
+There are a lot of techniques for automated test-data generation like Random, structural, goal oriented or intelligent.  
+* Random: select random inputs for the test data from some distribution.  
+* Structural(path oriented): These use the program's control flow graph, select a particular path and then use symbolic evaluation to generate test data for that path.
+* Goal oriented: They selecct inputs to execute a selected goal irrespective of path taken.
+* Intelligent: These rely on sophisticated code analysis to help search for new test data.
+
+The approach we use in our implementation is a Goal oriented approach as there are limitations to the others as shown here:
+* Random: Although it generates a lot of data, it may not satisfy the requirements as the random generator does not know about the specific requirements.
+* Structural: If the path identified is infeasible, it may not get an input that will traverse a path.
+* Intelligent: Although this can be very accurate, the time and complexity required to acheive this makes it infeasible for real world problems.
+
+
+The paper which resembles most to what we have done is in a paper titled "Test-data generation using genetic algorithms"(Pargas, Roy P., Mary Jean Harrold, and Robert R. Peck. "Test-data generation using genetic algorithms." Software Testing Verification and Reliability 9.4 (1999): 263-282.)[577 citations]. This paper uses a genetic algorithm to generate test data for programs written in C language with LOCs ranging from 20 to 80. The paper uses a tool they developed called TGen which helps them in doing this. The tool relies on the control dependence graph to get a better generation. The algorithm tht we propose depends on a library called coverage.py which is a highly relied upon library for measuring code coverage in Python.
+
 ## The "Model"
 
 The real world problem, or "Model", that we are trying to optimize is of test case input generation. Any software project has code which needs to be tested. Any of these projects can be taken as our model.
@@ -134,7 +150,10 @@ As a work-around, we had to remove the import statements, and pull the source co
 
 ## Threats to Validity   
 
-If the input type is different than any of the above, the generation and extrapolation functions would need to be modified accordingly. The test cases should also include the code in the same file.
+* If the input type is different than any of the above, the generation and extrapolation functions would need to be modified accordingly. 
+* The test cases should also include the code in the same file.
+* Verified only on an open source code of about 500 LOC.
+* Verified only for a container type library implementation(although this a norm in verifying similar algorithms).
 
 ## Conclusion  
 
@@ -150,3 +169,4 @@ Also, the algorithm needs to be modified to run with different types of input, t
 2. [Lecture Notes](https://github.com/txt/mase/blob/master/DE.md)
 3. [Bintrees Repository] (https://bitbucket.org/mozman/bintrees/overview)
 4. [Differential Evolution, Wikipedia](https://en.wikipedia.org/wiki/Differential_evolution)
+5. [Pargas, Roy P., Mary Jean Harrold, and Robert R. Peck. "Test-data generation using genetic algorithms." Software Testing Verification and Reliability 9.4 (1999): 263-282.](ucvesontio-website.googlecode.com/svn/trunk/projetTut/articles/test-data%20genetic%20algo.pdf)
