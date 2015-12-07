@@ -161,8 +161,22 @@ The algorithm developed by us for this project was tested on an open source proj
 
 ## Future Work  
 
-Currently, we have to call each test case explicitly. A possible improvement would be to parse the test case file ,read the function names and execute them dynamically.  
-Also, the algorithm needs to be modified to run with different types of input, the same code cannot be used with integers and lists currently.
+In terms of the algorithm, these are the few points that can be worked upon:  
+1. The first thing is to do an automatic parameter optimization for the various parameters used like number of candidates, change probability, size of input set etc.
+2. Another thing that can be done is to experiment with the child generation technique. give that there can be different types of inputs, a good child generation technique can be used for each type of input.
+
+In terms of pure implementation, there are a few things that we can do to make this tool easy to use in real world projects. The following are some of the points:  
+1. Currently, we have to call each test case explicitly. A possible improvement would be to parse the test case file ,read the function names and execute them dynamically.  
+2. Also, the current implementation requires a complex setup in terms of dependency and test file imports, these can be resolved in a better way so that the developers can run tests irrespective of what their project structure looks like.
+3. Another improvement could be to use a single file for any input type. This is just a matter of adding a switch case/if-else construct to the appropriate methods. This would also allow varied input types to be used together.
+4. We can also think about allowing developers to extend this class so as to add their own implementation for the extrapolation or candidate generatio method.  
+
+The other thing that we leartnt is that there is a lot of different ways that this can be used. It could be used directly on the code, it can be run on the test cases as well as on a single function. To be able to cater to these different methods, the tool should be able to handle a variety of inputs as well as use cases. We have tried to generalize our code accordingle to be able to handle these scenarios.
+
+Some of the results that we saw did conform to normal human intuition. For instance, we saw that increasing the number of input candidates in a test case set resulted in a higher coverage as well as an early achievement of the threshold. On the other hand, the coverage seemed to be on the lower side and took longer to come to the threshold.
+MAYBE PUT A STATISTIC DIAGRAM HERE
+
+One more lesson learnt was that each code is different and so is its characteristic while running this code. There is no single set of parameters that will work for any input. the way to go forward with these types of algorithms is to use automatic parameter tuning.
 
 ## References  
 1. [Ned Batchelder's coverage.py](https://coverage.readthedocs.org/en/coverage-4.0b3/index.html)
