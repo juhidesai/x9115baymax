@@ -148,6 +148,16 @@ As a work-around, we had to remove the import statements, and pull the source co
 
 ## Results  
 
+The algorithm we developed can be configured to take customvalues for number of candidates in each solution set(n), number of candidates to generate(candidates), the controlling factor which determines how much part of the original solution should be mutated(cf) as well as the probability of mutating a candidate parent(c). 
+
+We have highlighed the effect of candidate solution size in the following diagrams. The core insight here is that increasing the number of candidate solutions in a set inproves coverage(and takes a less number of generations to achieve the threshold).
+
+Data Results:
+
+1. Varying number of candidate solutions(n)
+
+These results show the coverage normalized to a float between 0 and 1 with 1 being the highest (100% coverage) shown with the help of an Inter Quartile Range mapping.
+
 n is the number of candidate solutions in a single test input case (The output of our program will be such a set with maximal coverage)
 
 n = 2
@@ -229,7 +239,7 @@ n = 8
 (            |         *  ),  0.90,   0.90,   0.90,   0.90,   0.90
 (            |         *  ),  0.90,   0.90,   0.90,   0.90,   0.90
 ```` 
-
+As we can observe, the mean has shidet towards a better solution as the number of candidates have increased. It can also be observed that a larger n resulted in getting to the threshold in less generations than the others,  
 ## Threats to Validity   
 
 * If the input type is different than any of the above, the generation and extrapolation functions would need to be modified accordingly. 
