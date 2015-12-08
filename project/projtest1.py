@@ -8,8 +8,6 @@ cov=coverage.Coverage()
 cov.start()
 
 import test_maincode
-##from test_maincode import *
-
 
 frontier = []
 param_list = []
@@ -27,13 +25,9 @@ candidates = 200
 
 def de():
     basefrontier = generateFrontier()
-    #print basefrontier
     for x in range(de_max):
         old  = basefrontier
         basefrontier = update(basefrontier)
-##        if old == basefrontier:
-##            print "same"
-##            break;
         global patience,cov_dict,prev_cov_dict
         if patience == 0:
             print "*"*40
@@ -41,8 +35,9 @@ def de():
             print "*"*40
             print cov_dict
             break
-    #print basefrontier
     visualizeData()
+    print "Final frontier is:"
+    print basefrontier
     return basefrontier
     
 def update(frnt):
@@ -76,7 +71,6 @@ def better(x,new):
             x_list = i
             break
     global cov_dict
-##    print cov_dict
     list_coverage = cov_dict[x_list]
     if list_coverage > 0.75:
         return x
@@ -104,17 +98,13 @@ def generateFrontier():
     frontier1 = []
     for i in range(candidates):
         a = (random.randint(0,10),random.randint(0,10),random.randint(0,10),random.randint(0,10))
-            #get from some optimizer, DE? based on current value? get frontier with say 200 values         
         frontier1.append(a)
     return frontier1
 
 def test_de():
-    print "in test DE"
     de()
     
 def generator(current_frontier):
-##    print current_frontier
-    print "inside"
     global cov_dict,prev_cov_dict,run_data
     mean = 0
     maj_cnt = 0
@@ -122,7 +112,6 @@ def generator(current_frontier):
     main_lists = [current_frontier[i:i+n] for i in range(0,len(current_frontier),n)]
     
     for i,sub_list in enumerate(main_lists):
-##        print i," ",sub_list
         cov.erase()
         cov.start()
         for params in sub_list:
@@ -131,7 +120,6 @@ def generator(current_frontier):
         cov.stop()
         cov.html_report()
         dict = cov.analysis2('test_maincode.py')
-##        print dict
         totLines = dict[1]
         msdLines = dict[3]
         linesExe = len(totLines) - len(msdLines)
@@ -141,27 +129,21 @@ def generator(current_frontier):
         if linesExePc > 0.75:
             maj_cnt += 1
         mean+=linesExePc
-    ##print "cov dict inside ",cov_dict
     run_data.append(cov_dict.values())
     print "--"*20
-    print float(mean)/(candidates/n)
-    print maj_cnt
-    print "median is ",data_visualization.median(cov_dict.values())
+    print "Mean: ",float(mean)/(candidates/n)
+    print "Candidates with more than 75% coverage: "maj_cnt
+    print "median: ",data_visualization.median(cov_dict.values())
         
 def visualizeData():
     global run_data
     for run in run_data:
         data_visualization._tileX(run)
-        #print "---"*30
-        #print "---"*30
 
 if __name__ == '__main__':
-
     global module_name
     module_name = sys.modules[__name__].__file__
-    print sys.modules[__name__]
-    logging.debug("running nose for package: %s", module_name)
-##    argv = ['fake','--nocapture']
+        logging.debug("running nose for package: %s", module_name)
     result = nose.run(argv=[sys.argv[0],
                             module_name,
                             '-v', '--nocapture'])#,'--with-coverage','--cover-tests'])
