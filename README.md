@@ -276,3 +276,4 @@ One more lesson learnt was that each code is different and so is its characteris
 3. [Bintrees Repository] (https://bitbucket.org/mozman/bintrees/overview)
 4. [Differential Evolution, Wikipedia](https://en.wikipedia.org/wiki/Differential_evolution)
 5. [Pargas, Roy P., Mary Jean Harrold, and Robert R. Peck. "Test-data generation using genetic algorithms." Software Testing Verification and Reliability 9.4 (1999): 263-282.](ucvesontio-website.googlecode.com/svn/trunk/projetTut/articles/test-data%20genetic%20algo.pdf)
+6. [Statictics class lecture] (https://github.com/txt/mase/blob/master/STATS.md)
