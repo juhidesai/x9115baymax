@@ -1,15 +1,16 @@
 import nose
 import sys
-import bintrees
-sys.path.append('./bintrees-2.0.2/bintrees')
+#import bintrees
+##sys.path.appen d('./bintrees-2.0.2/bintrees/')
 import logging
 import test_all_trees
 import coverage
 import random
 import os
 import unittest 
-cov=coverage.Coverage()
+#from bintrees import BinaryTree, AVLTree, RBTree
 
+cov=coverage.Coverage(config_file=True)
 frontier = []
 param_list = []
 cov_list = []
@@ -20,16 +21,20 @@ n = 10
 de_max = 50
 f = 0.75
 cf = 0.3
-patience = 15
+patience = 1
 candidates = 200
 
 def de():
     basefrontier = generateFrontier()
+    print "?"*20
     print basefrontier
     for x in range(de_max):
         old  = basefrontier
         basefrontier = update(basefrontier)
-
+        if old == basefrontier:
+            print "?"*20
+            print "No change"
+            print "?"*20
         global patience,cov_dict,prev_cov_dict
         if patience == 0:
             print "*"*40
@@ -37,7 +42,8 @@ def de():
             print "*"*40
             print cov_dict
             break
-    print basefrontier
+    
+    # print basefrontier
     return basefrontier
     
 def update(frnt):
@@ -54,15 +60,37 @@ def update(frnt):
 
 def extrapolate(frnt,one,f,cf):
     two,three,four = threeOthers(frnt,one)
-    new = [0]*len(one)
+    new = [[0]]*len(one)
+    # print "//"*40
+    # print len(one)
     #TODO: use numpy
     for i in range(len(one)):
         x,y,z = two[i],three[i],four[i]
+        # print "&&"*40
+        # print one
+        # print x
+        # print y
+        # print z
+        #print int(f*len(one[i]))
         if random.random() < cf:
-            new[i] = int(x + f*(y - z))
-##            print '%%'*50
-##            print "changd"
-##            print '%%'*50
+            ## these are lists. Do a change in the list
+            # try:
+            # print "$"*45
+            # print(len(new))
+            new[i]=[0]*len(one[i])
+            for j in range(int(f*len(one[i]))):
+                r1 = random.randint(0,len(one[i])-1)
+                r2 = random.randint(0,len(one[i])-1)
+                r3 = random.randint(0,len(one[i])-1)
+                # print r1," ",r2," ",r3 
+                new[i][r1] = x[random.randint(0,len(x)-1)]
+                new[i][r2] = y[random.randint(0,len(y)-1)]
+                new[i][r3] = z[random.randint(0,len(z)-1)]
+                    # print new
+            #new[i] = int(x + f*(y - z))
+            # except:
+            #     1==1
+                # print len(new), len(one)
         else:
             new[i] = one[i]
     return tuple(new)
@@ -75,7 +103,7 @@ def better(x,new):
             x_list = i
             break
     global cov_dict
-##    print cov_dict
+    # print cov_dict
     list_coverage = cov_dict[x_list]
     if list_coverage > 0.75:
         return x
@@ -89,6 +117,8 @@ def threeOthers(frnt,avoid):
             x = a(frnt)
         seen.append(x)
         return x
+    # print "+"*40
+    # print frnt
     seen =[avoid]
     two = oneOther()
     three = oneOther()
@@ -96,18 +126,32 @@ def threeOthers(frnt,avoid):
     return two,three,four
 
 def a(lst):
+    # print "+"*40
     return lst[random.randint(0,candidates-1)]
     
         
 def generateFrontier():
     frontier1 = []
     for i in range(candidates):
-        a = (random.randint(0,10),random.randint(0,10),random.randint(0,10),random.randint(0,10))
+        #a = (random.randint(0,10),random.randint(0,10),random.randint(0,10),random.randint(0,10))
             #get from some optimizer, DE? based on current value? get frontier with say 200 values         
+        p1 = []
+        p2 = []
+        p3 = []
+        for i in range(40):#random.randint(1,40)):
+            p1.append(random.randint(1,99))
+        
+        for i in range(20):#random.randint(1,40)):
+            p2.append((random.randint(1,99), random.randint(1,99)))
+            
+        for i in range(15):#random.randint(1,40)):
+            p3.append((random.randint(1,99), random.randint(1,99)))
+            
+        a = (list(zip(p1,p1)), p2, p3)
         frontier1.append(a)
+        # print frontier1
     return frontier1
     
-
 def test_de():
     print "in test DE"
     de()
@@ -122,37 +166,73 @@ def generator(current_frontier):
     
     for i,sub_list in enumerate(main_lists):
 ##        print i," ",sub_list
-        cov.erase()
+##        cov.erase()
         cov.start()
         for params in sub_list:
 ##            check_em(params[0], params[1])
             # os.system("test_all_trees.py")
             
             
-            def_values1 = list(zip([13, 13, 13], [13, 13, 13]))
-            def_values2 = [(3, 12), (9, 35), (8, 95), (1, 16), (3, 57)]
-            slicetest_data_global = [(1, 1), (2, 2), (3, 3), (4, 4), (8, 8), (9, 9), (10, 10), (11, 11)]
+            def_values1 = params[0]#list(zip([13, 13, 13], [13, 13, 13]))
+            def_values2 = params[1]#[(3, 12), (9, 35), (8, 95), (1, 16), (3, 57)]
+            slicetest_data_global = params[2]#[(1, 1), (2, 2), (3, 3), (4, 4), (8, 8), (9, 9), (10, 10), (11, 11)]
 
-            test_all_trees.aaa()
-            # test_all_trees.aaa(def_values1, def_values2, slicetest_data_global)
-            
+            #test_all_trees.aaa()
+            test_all_trees.aaa(def_values1, def_values2, slicetest_data_global)
+##            test_001_init(def_values1)
             # result = nose.run(argv=[
             #                 'test_all_trees.py',
             #                 '-v', '--nocapture'])
             #CheckTree().check_em_too(params[0], params[1],params[2], params[3])
-            return
+            #return
         cov.stop()
-        dict = cov.analysis2('test_all_trees.py')
-##        print dict
-        totLines = dict[1]
-        msdLines = dict[3]
-        linesExe = len(totLines) - len(msdLines)
-        linesExePc = (float)(linesExe)/ len(totLines)
-        cov_list.append(linesExePc)
-        cov_dict[i] = linesExePc
+        cov.save()
+        cov.html_report()
+#         dict = cov.analysis2('test_all_trees.py')
+# ##        print dict
+#         totLines = dict[1]
+#         msdLines = dict[3]
+#         linesExe = len(totLines) - len(msdLines)
+#         linesExePc = (float)(linesExe)/ len(totLines)
+#         cov_list.append(linesExePc)
+#         cov_dict[i] = linesExePc
+        
+        # ../bintrees/bintree.py, test_all_trees.py
+        filename = os.path.join(os.getcwd(),)
+        # print "^^"*40
+        # print os.path.abspath('../bintrees/bintree.py')
+        #/home/ubuntu/workspace/project/bintrees-2.0.2/bintrees/bintree.py
+        #os.path.join(os.path.abspath('../'),'/bintrees/bintree.py')
+        #C:\Users\Juhi\Desktop\notes\sem 3\ASE\git repo\x9115baymax\project\bintrees-2.0.2\bintrees
+        analyzedData = analyzeCoverageData(cov,"C:\Users\Juhi\Desktop\notes\sem 3\ASE\git repo\x9115baymax\project\bintrees-2.0.2\bintrees")
+        cov_list.append(analyzedData)
+        cov_dict[i] = analyzedData
     print "cov dict inside ",cov_dict
         
-##de()    
+##de()  
+def analyzeCoverageData(cov,filename):
+##    dict = cov.analysis2("C:\\python27\\lib\\site-packages\\bintrees\\bintree.py")
+##    dict = cov.analysis2("C:\\Users\\Juhi\\Desktop\\notes\\sem 3\\ASE\\git repo\\x9115baymax\\project\\bintrees-2.0.2\\bintrees\\bintree.py")
+    dict = cov.analysis2("test_all_trees.py")
+##    print dict
+    totLines = dict[1]
+    msdLines = dict[3]
+    linesExe = len(totLines) - len(msdLines)
+    linesExePc = (float)(linesExe)/ len(totLines)
+    
+    return linesExePc
+    #     cov_list.append(linesExePc)
+    #      cov_dict[i] = linesExePc
+    # print "cov dict inside ",cov_dict
+
+
+##def test_001_init(default_values1):
+##    cov.erase()
+##    cov.start()
+##    tree = TREE_CLASS()
+##    tree.update(default_values1)
+##    cov.stop()
+
 
 if __name__ == '__main__':
 
