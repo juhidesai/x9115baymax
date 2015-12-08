@@ -1,34 +1,15 @@
-'''
-Dynamically generating and running and test cases.
-
-Instructions to run this file:
-1. install nose (pip install nose)
-2. install coverage (pip install coverage)
-3. using the commandmline, go to the location having this file and execute this line:
-nosetests -v --with-coverage --cover-html --cover-erase  projtest1.py
-
-Output:-
-projtest1.test_generator(1, 1) ... ok
-projtest1.test_generator(5, 3) ... ok
-projtest1.test_generator(8, 6) ... ok
-
-Name           Stmts   Miss  Cover   Missing
---------------------------------------------
-projtest1.py      12      2    83%   14, 20
-----------------------------------------------------------------------
-Ran 3 tests in 0.005s
-
-OK
-'''
 import nose
 import sys
 import logging
-import test_maincode
-from test_maincode import *
-import coverage
 import random
-
+import data_visualization
+import coverage
 cov=coverage.Coverage()
+cov.start()
+
+import test_maincode
+##from test_maincode import *
+
 
 frontier = []
 param_list = []
@@ -36,7 +17,8 @@ cov_list = []
 cov_dict = {}
 prev_cov_dict = {}
 main_lists = []
-n = 10
+run_data = []
+n = 2
 de_max = 50
 f = 0.75
 cf = 0.3
@@ -45,7 +27,7 @@ candidates = 200
 
 def de():
     basefrontier = generateFrontier()
-    print basefrontier
+    #print basefrontier
     for x in range(de_max):
         old  = basefrontier
         basefrontier = update(basefrontier)
@@ -59,11 +41,11 @@ def de():
             print "*"*40
             print cov_dict
             break
-    print basefrontier
+    #print basefrontier
+    visualizeData()
     return basefrontier
     
 def update(frnt):
-##    print "in update"
     global patience
     generator(frnt)
     if cov_dict == prev_cov_dict:
@@ -77,14 +59,11 @@ def update(frnt):
 def extrapolate(frnt,one,f,cf):
     two,three,four = threeOthers(frnt,one)
     new = [0]*len(one)
-    #TODO: use numpy
+    #Alternative: use numpy
     for i in range(len(one)):
         x,y,z = two[i],three[i],four[i]
         if random.random() < cf:
             new[i] = int(x + f*(y - z))
-##            print '%%'*50
-##            print "changd"
-##            print '%%'*50
         else:
             new[i] = one[i]
     return tuple(new)
@@ -128,30 +107,18 @@ def generateFrontier():
             #get from some optimizer, DE? based on current value? get frontier with say 200 values         
         frontier1.append(a)
     return frontier1
-    
-    
-def generateParam():
-    for i in range(15):
-        for j in range(2):
-            a = (j,i)
-            #get from some optimizer, DE? based on current value? get frontier with say 200 values         
-            param_list.append(a)
-            #from that frontier, get say 20 cadidates that dominate the rest and run nose on this newly pruned param_list
-    global frontier
-    frontier = param_list
-##    print param_list
-
 
 def test_de():
     print "in test DE"
     de()
     
-##param_list = [(1, 1), (5,3), (8, 6)]
 def generator(current_frontier):
 ##    print current_frontier
     print "inside"
-    global cov_dict,prev_cov_dict
-    prev_cov_dict = cov_dict
+    global cov_dict,prev_cov_dict,run_data
+    mean = 0
+    maj_cnt = 0
+    prev_cov_dict = cov_dict.copy()
     main_lists = [current_frontier[i:i+n] for i in range(0,len(current_frontier),n)]
     
     for i,sub_list in enumerate(main_lists):
@@ -159,9 +126,10 @@ def generator(current_frontier):
         cov.erase()
         cov.start()
         for params in sub_list:
-##            check_em(params[0], params[1])
-            check_em_too(params[0], params[1],params[2], params[3])
+            test_maincode.check_em(params[0], params[1])
+            test_maincode.check_em_too(params[0], params[1],params[2], params[3])
         cov.stop()
+        cov.html_report()
         dict = cov.analysis2('test_maincode.py')
 ##        print dict
         totLines = dict[1]
@@ -170,9 +138,22 @@ def generator(current_frontier):
         linesExePc = (float)(linesExe)/ len(totLines)
         cov_list.append(linesExePc)
         cov_dict[i] = linesExePc
-    print "cov dict inside ",cov_dict
+        if linesExePc > 0.75:
+            maj_cnt += 1
+        mean+=linesExePc
+    ##print "cov dict inside ",cov_dict
+    run_data.append(cov_dict.values())
+    print "--"*20
+    print float(mean)/(candidates/n)
+    print maj_cnt
+    print "median is ",data_visualization.median(cov_dict.values())
         
-##de()    
+def visualizeData():
+    global run_data
+    for run in run_data:
+        data_visualization._tileX(run)
+        #print "---"*30
+        #print "---"*30
 
 if __name__ == '__main__':
 

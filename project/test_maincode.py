@@ -6,9 +6,11 @@ def check_em(a, b):
     else:
         c = a-b
     if c%2 == 0:
-        print("Even")
+        1==1
+##        print("Even")
     else:
-        print("Odd")
+        1==1
+##        print("Odd")
 
 def check_em_too(a,b,c,d):
 	g = a + c + d*10
@@ -16,10 +18,13 @@ def check_em_too(a,b,c,d):
 		e = 100
 		f = e*b
 		if f%2 == 0:
-			print f
+                        1==1
+			##print f
 	else:
 		f = g%22
 		if f%2 != 0:
-			print f
+                        1==1
+			##print f
 		else:
-			print g
+                        1==1
+			##print g

@@ -1,35 +1,17 @@
-'''
-Dynamically generating and running and test cases.
-
-Instructions to run this file:
-1. install nose (pip install nose)
-2. install coverage (pip install coverage)
-3. using the commandmline, go to the location having this file and execute this line:
-nosetests -v --with-coverage --cover-html --cover-erase  projtest1.py
-
-Output:-
-projtest1.test_generator(1, 1) ... ok
-projtest1.test_generator(5, 3) ... ok
-projtest1.test_generator(8, 6) ... ok
-
-Name           Stmts   Miss  Cover   Missing
---------------------------------------------
-projtest1.py      12      2    83%   14, 20
-----------------------------------------------------------------------
-Ran 3 tests in 0.005s
-
-OK
-'''
 import nose
 import sys
 import logging
-import test_maincode_str
-from test_maincode_str import *
-import coverage
 import random
 import string
 
+import coverage
 cov=coverage.Coverage()
+coverage.process_startup()
+cov.start()
+
+import test_maincode_str
+from test_maincode_str import *
+
 
 frontier = []
 param_list = []
@@ -42,7 +24,7 @@ de_max = 50
 f = 0.75
 cf = 0.3
 patience = 15
-candidates = 500
+candidates = 200
 
 def de():
     basefrontier = generateFrontier()
@@ -146,19 +128,6 @@ def generateFrontier():
         frontier1.append(a)
     return frontier1
     
-    
-def generateParam():
-    for i in range(15):
-        for j in range(2):
-            a = (j,i)
-            #get from some optimizer, DE? based on current value? get frontier with say 200 values         
-            param_list.append(a)
-            #from that frontier, get say 20 cadidates that dominate the rest and run nose on this newly pruned param_list
-    global frontier
-    frontier = param_list
-##    print param_list
-
-
 def test_de():
     print "in test DE"
     de()
@@ -174,12 +143,13 @@ def generator(current_frontier):
     
     for i,sub_list in enumerate(main_lists):
 ##        print i," ",sub_list
-        cov.erase()
+##        cov.erase()
         cov.start()
         for params in sub_list:
 ##            check_em(params[0], params[1])
             check_em_too(randomword(params[0]), randomword(params[1]),randomword(params[2]), randomword(params[3]))
         cov.stop()
+        cov.html_report()
         dict = cov.analysis2('test_maincode_str.py')
 ##        print dict
         totLines = dict[1]
