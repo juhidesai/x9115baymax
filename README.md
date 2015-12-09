@@ -451,8 +451,7 @@ In terms of pure implementation, there are a few things that we can do to make t
 
 The other thing that we leartnt is that there is a lot of different ways that this can be used. It could be used directly on the code, it can be run on the test cases as well as on a single function. To be able to cater to these different methods, the tool should be able to handle a variety of inputs as well as use cases. We have tried to generalize our code accordingle to be able to handle these scenarios.
 
-Some of the results that we saw did conform to normal human intuition. For instance, we saw that increasing the number of input candidates in a test case set resulted in a higher coverage as well as an early achievement of the threshold. On the other hand, the coverage seemed to be on the lower side and took longer to come to the threshold.
-MAYBE PUT A STATISTIC DIAGRAM HERE
+Some of the results that we saw did conform to normal human intuition. For instance, we saw that increasing the number of input candidates in a test case set resulted in a higher coverage as well as an early achievement of the threshold. On the other hand, the coverage seemed to be on the lower side and took longer to come to the threshold.  
 
 One more lesson learnt was that each code is different and so is its characteristic while running this code. There is no single set of parameters that will work for any input. the way to go forward with these types of algorithms is to use automatic parameter tuning.
 
@@ -462,4 +461,4 @@ One more lesson learnt was that each code is different and so is its characteris
 3. [Bintrees Repository] (https://bitbucket.org/mozman/bintrees/overview)
 4. [Differential Evolution, Wikipedia](https://en.wikipedia.org/wiki/Differential_evolution)
 5. [Pargas, Roy P., Mary Jean Harrold, and Robert R. Peck. "Test-data generation using genetic algorithms." Software Testing Verification and Reliability 9.4 (1999): 263-282.](ucvesontio-website.googlecode.com/svn/trunk/projetTut/articles/test-data%20genetic%20algo.pdf)
-6. [Statictics class lecture] (https://github.com/txt/mase/blob/master/STATS.md)
+6. [Statistics class lecture] (https://github.com/txt/mase/blob/master/STATS.md)
