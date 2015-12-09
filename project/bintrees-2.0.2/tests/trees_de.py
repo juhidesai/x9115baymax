@@ -1,21 +1,16 @@
 import nose
 import sys
 import logging
-import coverage
 import random
 import os
-import unittest 
+import unittest
 import data_visualization
-
 import coverage
 cov=coverage.Coverage(config_file=True)
 cov.start()
 
-
 import test_all_trees
-#import bintrees
 
-cov=coverage.Coverage(config_file=True)
 frontier = []
 param_list = []
 cov_list = []
@@ -26,7 +21,7 @@ run_data = []
 n = 10
 de_max = 50
 f = 0.75
-cf = 0.3
+cf = 0.30
 patience = 5
 candidates = 200
 
@@ -40,6 +35,7 @@ def de():
             print "*"*40
             print "Ran out of patience"
             print "*"*40
+            print cov_dict
             break
     visualizeData()
     print "Final frontier is:"
@@ -54,7 +50,7 @@ def update(frnt):
         patience -= 1
     for i,x in enumerate(frnt):
         newx = extrapolate(frnt,x,f,cf)
-        frnt[i] = better(x,newx)
+        frnt[i] = better(x,newx)    
     return frnt
 
 def extrapolate(frnt,one,f,cf):
@@ -63,7 +59,9 @@ def extrapolate(frnt,one,f,cf):
     for i in range(len(one)):
         x,y,z = two[i],three[i],four[i]
         if random.random() < cf:
+            ## these are lists. Do a change in the list
             new[i]=[0]*len(one[i])
+            new[i] = one[i]
             for j in range(int(f*len(one[i]))):
                 r1 = random.randint(0,len(one[i])-1)
                 r2 = random.randint(0,len(one[i])-1)
@@ -108,28 +106,31 @@ def a(lst):
         
 def generateFrontier():
     frontier1 = []
-    for i in range(candidates):         
+    for i in range(candidates):
         p1 = []
         p2 = []
         p3 = []
         for i in range(40):#random.randint(1,40)):
             p1.append(random.randint(1,99))
+        
         for i in range(20):#random.randint(1,40)):
-            p2.append((random.randint(1,99), random.randint(1,99)))   
+            p2.append((random.randint(1,99), random.randint(1,99)))
+            
         for i in range(15):#random.randint(1,40)):
             p3.append((random.randint(1,99), random.randint(1,99)))
             
         a = (list(zip(p1,p1)), p2, p3)
         frontier1.append(a)
+        # print frontier1
     return frontier1
     
 def test_de():
     de()
     
 def generator(current_frontier):
-    global cov_dict,prev_cov_dict,run_data
     mean = 0
     maj_cnt = 0
+    global cov_dict,prev_cov_dict,run_data
     prev_cov_dict = cov_dict.copy()
     main_lists = [current_frontier[i:i+n] for i in range(0,len(current_frontier),n)]
     
@@ -143,18 +144,22 @@ def generator(current_frontier):
         cov.stop()
         cov.save()
         cov.html_report()
-        filename = os.path.join(os.getcwd(),)
         analyzedData = analyzeCoverageData(cov)
         cov_list.append(analyzedData)
         cov_dict[i] = analyzedData
-        if cov_dict[i] > 0.75:
+        if analyzedData > 0.75:
             maj_cnt += 1
-        mean+=cov_dict[i]
-    run_data.append(cov_dict.values())      
-    print "--"*20       
-    print "Mean: ",float(mean)/(candidates/n)       
-    print "Candidates with more than 75% coverage: ",maj_cnt     
+        mean+=analyzedData
+    run_data.append(cov_dict.values())
+    print "--"*20
+    print "Mean: ",float(mean)/(candidates/n)
+    print "Candidates with more than 75% coverage: ",maj_cnt
     print "median: ",data_visualization.median(cov_dict.values())
+
+def visualizeData():
+    global run_data
+    for run in run_data:
+        data_visualization._tileX(run)
         
 def analyzeCoverageData(cov):
     dict = cov.analysis2("test_all_trees.py")
@@ -163,11 +168,6 @@ def analyzeCoverageData(cov):
     linesExe = len(totLines) - len(msdLines)
     linesExePc = (float)(linesExe)/ len(totLines)
     return linesExePc
-
-def visualizeData():
-    global run_data
-    for run in run_data:
-        data_visualization._tileX(run)
 
 if __name__ == '__main__':
     global module_name
