@@ -1,8 +1,7 @@
 # x9115baymax
-CSC 591 Automated Software Engineering
+### CSC 591 Automated Software Engineering
 
-Collaborators:
-
+**Collaborators:**  
 Juhi Desai (jddesai)  
 Rohit Arora (rarora4)   
 Ronak Nisher (rpnisher)  
@@ -146,6 +145,9 @@ While dealing with the open source repository, there were issues with calculatin
 
 As a work-around, we had to remove the import statements, and pull the source code into the test file itself. This problem should not occur for repositories which have a separate installation.  
 
+## Instructions to Run Files  
+
+[Instructions to Run Files] (https://github.com/juhidesai/x9115baymax/blob/master/project/README.md)  
 ## Results  
 
 The algorithm we developed can be configured to take customvalues for number of candidates in each solution set(n), number of candidates to generate(candidates), the controlling factor which determines how much part of the original solution should be mutated(cf) as well as the probability of mutating a candidate parent(c). 
